@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+/* TODO: placeholder design tokens. Replace wholesale once the visual
+   direction is settled. Do not build a palette on top of these. */
+@theme {
+  --color-ink: #111111;
+  --color-paper: #ffffff;
+  --color-muted: #6b7280;
+  --color-accent: #2563eb;
+}

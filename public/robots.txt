@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: update host before launch
+Sitemap: https://example.com/sitemap-index.xml

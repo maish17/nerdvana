@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const entries = (await getCollection('solutions', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="PLACEHOLDER_SOLUTIONS_TITLE" description="PLACEHOLDER_SOLUTIONS_DESCRIPTION">
+  <h1>PLACEHOLDER_SOLUTIONS_HEADING</h1>
+  <ul>
+    {entries.map((entry) => (
+      <li>
+        <a href={`/solutions/${entry.id}/`}>
+          <h2>{entry.data.title}</h2>
+          <p>{entry.data.tagline}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

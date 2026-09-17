@@ -1,0 +1,14 @@
+---
+import { site } from '../data/site';
+---
+
+<nav aria-label="Primary">
+  <a href="/">{site.name}</a>
+  <ul>
+    {site.nav.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+  </ul>
+  <!-- External: the enrollment/login app is a separate origin, built by the client. -->
+  <a href={site.appUrl} rel="noopener">Log in</a>
+</nav>
