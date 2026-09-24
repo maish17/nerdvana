@@ -1,13 +1,6 @@
----
-import { site } from '../data/site';
-const year = new Date().getFullYear();
----
-
 <footer>
-  <address>
-    <a href={`mailto:${site.email}`}>{site.email}</a>
-    <a href={`tel:${site.phone}`}>{site.phone}</a>
-    <span>{site.address.street}, {site.address.city}, {site.address.region} {site.address.postalCode}</span>
-  </address>
-  <p>&copy; {year} {site.name}</p>
+  <div class="footer__subscribe">
+    <h2>Subscribe For The Latest Updates</h2>
+    <form><input type="email" aria-label="Email Address" placeholder="Email Address" /><button type="submit">Subscribe Now</button></form>
+  </div>
 </footer>

@@ -1,14 +1,17 @@
 ---
-import { site } from '../data/site';
+import { Image } from 'astro:assets';
+import hero from '../assets/hero.png';
 ---
 
 <nav aria-label="Primary">
-  <a href="/">{site.name}</a>
+  <a class="brand" href="/"><Image src={hero} alt="Nerdvana" /></a>
   <ul>
-    {site.nav.map((item) => (
-      <li><a href={item.href}>{item.label}</a></li>
-    ))}
+    <li><a class="active" href="/">Home</a></li>
+    <li><a href="/solutions/">Page 1</a></li>
+    <li><a href="/about/">Page 2</a></li>
+    <li><a href="/contact/">Page 3</a></li>
+    <li><a href="/contact/">Page 4</a></li>
+    <li><a href="/contact/">Page 5</a></li>
   </ul>
-  <!-- External: the enrollment/login app is a separate origin, built by the client. -->
-  <a href={site.appUrl} rel="noopener">Log in</a>
+  <a class="search" href="/contact/" aria-label="Search"><img src="/search.svg" alt="" /></a>
 </nav>
