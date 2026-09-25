@@ -12,14 +12,14 @@
 body { margin: 0; min-width: 320px; }
 a { color: inherit; text-decoration: none; }
 button, input { font: inherit; }
-nav { position: absolute; z-index: 5; top: 0; left: 0; display: flex; align-items: center; width: 100%; height: 119px; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.22); }
+nav { position: absolute; z-index: 5; top: 0; left: 0; display: flex; align-items: center; width: 100%; height: 119px; overflow-x: clip; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.22); }
 nav::after { position: absolute; z-index: 0; top: -63px; right: 27px; width: 97px; height: 285px; transform: rotate(25.4deg) skewX(.92deg); background: rgba(0,0,0,.1); content: ''; }
 .brand { position: relative; z-index: 1; display: grid; place-items: center; flex: 0 0 396px; width: 396px; height: 120px; border-radius: 0 0 70px 0; background: #fff; box-shadow: 0 4px 4px 1px rgba(0,0,0,.25); }
 .brand img { width: 269px; height: 68px; object-fit: contain; }
 nav ul { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; width: min(1200px, calc(100% - 720px)); height: 100%; margin: 0 auto; padding: 0 0 0 28px; list-style: none; font-size: 16px; font-weight: 500; }
 nav li a { display: block; padding: 20px 16px; color: #585059; white-space: nowrap; }
 nav li .active { font-weight: 600; }
-.search { position: relative; z-index: 1; display: grid; flex: 0 0 92px; place-items: center; width: 92px; height: 119px; margin-left: auto; }
+.search { position: relative; z-index: 1; display: grid; flex: 0 0 97px; place-items: center; width: 97px; height: 119px; margin-left: auto; margin-right: 23px; }
 .search img { width: 24px; height: 24px; }
 .hero { position: relative; height: 950px; overflow: hidden; background: #91399c; }
 .hero__image { position: absolute; inset: -5%; background: url('/hero-overlay.png') center / cover no-repeat; filter: blur(4.9px); }
@@ -81,7 +81,7 @@ footer { min-height: 390px; background: #16191b; color: #fff; }
   .brand img { width: 120px; height: 48px; }
   nav ul { gap: 6px; width: auto; padding: 0; overflow: hidden; font-size: 10px; }
   nav li:nth-child(n+4) { display: none; }
-  .search { width: 42px; height: 72px; }
+  .search { width: 42px; height: 72px; margin-right: 0; }
   .hero { height: 480px; }
   .hero__content { top: 150px; }
   .hero__logo { width: min(330px, 82vw); margin-bottom: 18px; }
