@@ -44,12 +44,71 @@ import park from '../assets/park.png';
 
   <section class="projects" aria-label="Featured projects">
     <button class="carousel-button carousel-button--left" aria-label="Previous project">‹</button>
-    <div class="project project--left"><img src="/border-tour.png" alt="People riding horses on a Border Tour" /><div><strong>Border Tour</strong></div></div>
-    <div class="project project--center"><img src="/disco.png" alt="Colorful sculpture at El Disco Super Center" /><div><strong>El Disco Super Center</strong><small>132 My Street Avenue</small></div></div>
-    <div class="project project--right"><Image src={park} alt="Playground at Progreso City Park" loading="eager" decoding="sync" /><div><strong>Progreso City Park</strong></div></div>
-    <button class="carousel-button carousel-button--right" aria-label="Next project">›</button>
-    <div class="carousel-dots" aria-hidden="true"><span></span><span></span><span></span><span class="active"></span><span></span></div>
+    <div class="project project--left" data-project-slot="0"><img src="/border-tour.png" alt="People riding horses on a Border Tour" /><div><strong>Border Tour</strong></div></div>
+    <div class="project project--center" data-project-slot="1"><img src="/disco.png" alt="Colorful sculpture at El Disco Super Center" /><div><strong>El Disco Super Center</strong><small>132 My Street Avenue</small></div></div>
+    <div class="project project--right" data-project-slot="2"><Image src={park} alt="Playground at Progreso City Park" loading="eager" decoding="sync" /><div><strong>Progreso City Park</strong></div></div>
+    <button class="carousel-button carousel-button--right" type="button" aria-label="Next project">›</button>
+    <div class="carousel-dots" aria-label="Choose a project">
+      <button type="button" aria-label="Show Border Tour" class="active"></button>
+      <button type="button" aria-label="Show El Disco Super Center"></button>
+      <button type="button" aria-label="Show Progreso City Park"></button>
+      <button type="button" aria-label="Show temporary project 4"></button>
+      <button type="button" aria-label="Show temporary project 5"></button>
+    </div>
   </section>
 
   <section class="awards"><h2>Award winning clients</h2></section>
 </BaseLayout>
+
+<script>
+  const projects = [
+    { image: '/border-tour.png', alt: 'People riding horses on a Border Tour', title: 'Border Tour' },
+    { image: '/disco.png', alt: 'Colorful sculpture at El Disco Super Center', title: 'El Disco Super Center', detail: '132 My Street Avenue' },
+    { image: '/park.png', alt: 'Playground at Progreso City Park', title: 'Progreso City Park' },
+    { image: '/hero.png', alt: 'Temporary featured project photo', title: 'Temporary Project 4' },
+    { image: '/hero-overlay.png', alt: 'Temporary featured project photo', title: 'Temporary Project 5' },
+  ];
+
+  const carousel = document.querySelector('.projects');
+  const cards = [...carousel.querySelectorAll('[data-project-slot]')];
+  const dots = [...carousel.querySelectorAll('.carousel-dots button')];
+  const previous = carousel.querySelector('.carousel-button--left');
+  const next = carousel.querySelector('.carousel-button--right');
+  let activeIndex = 0;
+
+  const renderProject = (card, project) => {
+    const image = card.querySelector('img');
+    const title = card.querySelector('strong');
+    const detail = card.querySelector('small');
+
+    image.src = project.image;
+    image.alt = project.alt;
+    title.textContent = project.title;
+    if (project.detail) {
+      if (detail) detail.textContent = project.detail;
+      else card.querySelector('div').insertAdjacentHTML('beforeend', `<small>${project.detail}</small>`);
+    } else if (detail) {
+      detail.remove();
+    }
+  };
+
+  const renderCarousel = () => {
+    cards.forEach((card, slot) => renderProject(card, projects[(activeIndex + slot) % projects.length]));
+    dots.forEach((dot, index) => dot.classList.toggle('active', index === activeIndex));
+  };
+
+  previous.addEventListener('click', () => {
+    activeIndex = (activeIndex - 1 + projects.length) % projects.length;
+    renderCarousel();
+  });
+
+  next.addEventListener('click', () => {
+    activeIndex = (activeIndex + 1) % projects.length;
+    renderCarousel();
+  });
+
+  dots.forEach((dot, index) => dot.addEventListener('click', () => {
+    activeIndex = index;
+    renderCarousel();
+  }));
+</script>
