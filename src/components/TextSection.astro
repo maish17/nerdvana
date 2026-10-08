@@ -1,0 +1,36 @@
+---
+/** Eyebrow + heading + rich body copy, with up to two centered buttons. */
+import Section from './Section.astro';
+import RichText from './RichText.astro';
+
+interface Action {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  body: string;
+  primaryAction?: Action;
+  secondaryAction?: Action;
+}
+
+const { eyebrow, heading, body, primaryAction, secondaryAction } = Astro.props;
+const actions = [primaryAction, secondaryAction].filter((a): a is Required<Action> =>
+  Boolean(a?.label && a.href),
+);
+---
+
+<Section eyebrow={eyebrow} heading={heading}>
+  <RichText content={body} wide />
+  {actions.length > 0 && (
+    <div class="mt-xl flex flex-wrap justify-center gap-md">
+      {actions.map((a) => (
+        <a class="btn btn-primary" href={a.href}>
+          {a.label}
+        </a>
+      ))}
+    </div>
+  )}
+</Section>

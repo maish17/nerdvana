@@ -1,77 +1,130 @@
 seo:
-  title: '[PLACEHOLDER] Home'
+  title: Nerdvana | Learn • Play • Work • Innovate
   description: '[PLACEHOLDER] Search result description for the home page.'
 hero:
-  eyebrow: '[PLACEHOLDER] Eyebrow'
-  heading: '[PLACEHOLDER] Home heading'
-  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  heading: Nerdvana
+  logo: /images/singletons/home/hero/logo.png
+  taglineWords:
+    - Learn
+    - Play
+    - Work
+    - Innovate
+  background:
+    src: /images/singletons/home/hero/background/src.jpg
+intro:
+  eyebrow: Why should you choose us?
+  heading: Reach YOUR Nerdvana
+  body: >
+    [PLACEHOLDER] Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text.
   primaryAction:
-    label: '[PLACEHOLDER] Plan a partnership'
+    label: Plan a Partnership
     href: /contact/
   secondaryAction:
-    label: '[PLACEHOLDER] See programs'
+    label: Explore Programs
     href: /programs/
-  image:
-    src: /images/singletons/home/hero.svg
-    alt: '[PLACEHOLDER] Description of the home hero image'
-proof:
-  heading: '[PLACEHOLDER] By the numbers'
-  items:
-    - value: '[PLACEHOLDER] 00'
-      label: '[PLACEHOLDER] First metric'
-    - value: '[PLACEHOLDER] 00'
-      label: '[PLACEHOLDER] Second metric'
-    - value: '[PLACEHOLDER] 00'
-      label: '[PLACEHOLDER] Third metric'
-audienceRouter:
-  heading: '[PLACEHOLDER] Who we work with'
-  intro: '[PLACEHOLDER] Short intro routing each audience to its page.'
+spotlight:
+  heading: '[PLACEHOLDER] Template Header'
   cards:
-    - label: '[PLACEHOLDER] Districts'
-      description: '[PLACEHOLDER] One line for districts.'
-      href: /solutions/district-partnerships/
-    - label: '[PLACEHOLDER] Charter networks'
-      description: '[PLACEHOLDER] One line for charter networks.'
-      href: /solutions/charter-networks/
-    - label: '[PLACEHOLDER] Independent schools'
-      description: '[PLACEHOLDER] One line for independent schools.'
-      href: /solutions/independent-schools/
-    - label: '[PLACEHOLDER] Families'
-      description: '[PLACEHOLDER] One line for families.'
+    - image:
+        src: /images/singletons/home/spotlight/cards/0/image/src.svg
+        alt: '[PLACEHOLDER] Description of card 1 image'
+      label: '[PLACEHOLDER] Template button 1'
+      href: /programs/
+    - image:
+        src: /images/singletons/home/spotlight/cards/1/image/src.svg
+        alt: '[PLACEHOLDER] Description of card 2 image'
+      label: '[PLACEHOLDER] Template button 2'
+      href: /programs/
+    - image:
+        src: /images/singletons/home/spotlight/cards/2/image/src.svg
+        alt: '[PLACEHOLDER] Description of card 3 image'
+      label: '[PLACEHOLDER] Template button 3'
+      href: /programs/
+    - image:
+        src: /images/singletons/home/spotlight/cards/3/image/src.svg
+        alt: '[PLACEHOLDER] Description of card 4 image'
+      label: '[PLACEHOLDER] Template button 4'
+      href: /programs/
+    - image:
+        src: /images/singletons/home/spotlight/cards/4/image/src.svg
+        alt: '[PLACEHOLDER] Description of card 5 image'
+      label: '[PLACEHOLDER] Template button 5'
+      href: /programs/
+story:
+  eyebrow: '[PLACEHOLDER] Subheading'
+  heading: '[PLACEHOLDER] Template Header'
+  body: >
+    [PLACEHOLDER] Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text.
+proof:
+  items:
+    - value: X,XXX+
+      label: students served
+    - value: XX
+      label: school / district partners
+    - value: XX+
+      label: program implementations
+    - value: XX
+      label: '[PLACEHOLDER] Another possible statistic'
+audienceRouter:
+  eyebrow: '[PLACEHOLDER] Subheading'
+  heading: '[PLACEHOLDER] Template Header'
+  intro: >-
+    [PLACEHOLDER] Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text Body text Body
+    text Body text Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text.
+  cards:
+    - label: '[PLACEHOLDER] Header 1'
+      description: >-
+        [PLACEHOLDER] Body text Body text Body text Body text Body text Body
+        text.
+      linkLabel: '[PLACEHOLDER] Template Link'
+      href: /solutions/
+    - label: '[PLACEHOLDER] Header 2'
+      description: >-
+        [PLACEHOLDER] Body text Body text Body text Body text Body text Body
+        text.
+      linkLabel: '[PLACEHOLDER] Template Link'
       href: /families/parents/
-steps:
-  heading: '[PLACEHOLDER] How implementation works'
-  intro: '[PLACEHOLDER] Short intro to the implementation steps.'
-  steps:
-    - title: '[PLACEHOLDER] Step 1 title'
-      description: '[PLACEHOLDER] One or two sentences describing step 1.'
-    - title: '[PLACEHOLDER] Step 2 title'
-      description: '[PLACEHOLDER] One or two sentences describing step 2.'
-    - title: '[PLACEHOLDER] Step 3 title'
-      description: '[PLACEHOLDER] One or two sentences describing step 3.'
-    - title: '[PLACEHOLDER] Step 4 title'
-      description: '[PLACEHOLDER] One or two sentences describing step 4.'
-programs:
-  heading: '[PLACEHOLDER] Featured programs'
-  intro: '[PLACEHOLDER] Intro to the featured programs.'
-  programs:
-    - drone-flight-autonomy
-caseStudies:
-  heading: '[PLACEHOLDER] Featured case studies'
-  intro: '[PLACEHOLDER] Intro to the case studies.'
-  caseStudies:
-    - example-isd-summer-program
-testimonial:
-  testimonial: jordan-example
-faq:
-  heading: '[PLACEHOLDER] Frequently asked questions'
-  faqs:
-    - example-question-one
-    - example-question-two
+    - label: '[PLACEHOLDER] Header 3'
+      description: >-
+        [PLACEHOLDER] Body text Body text Body text Body text Body text Body
+        text.
+      linkLabel: '[PLACEHOLDER] Template Link'
+      href: /workforce/pre-ets/
 cta:
-  heading: '[PLACEHOLDER] Call-to-action heading'
-  expectation: '[PLACEHOLDER] One line telling the visitor exactly what happens when they click.'
+  heading: '[PLACEHOLDER] Template Call to action!'
+  expectation: >-
+    [PLACEHOLDER] Body text Body text Body text Body text Body text Body text
+    Body text Body text Body text Body text Body text Body text.
   action:
-    label: '[PLACEHOLDER] Start planning'
+    label: Plan a Partnership
     href: /contact/
+  secondaryAction:
+    label: Explore Programs
+    href: /programs/
   sourceTag: home-cta

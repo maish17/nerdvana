@@ -1,38 +1,31 @@
 ---
+/** Homepage. Section order follows the approved design and is fixed here. */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import BrandHero from '../components/BrandHero.astro';
+import TextSection from '../components/TextSection.astro';
+import Carousel from '../components/Carousel.astro';
 import ProofStrip from '../components/ProofStrip.astro';
 import AudienceRouter from '../components/AudienceRouter.astro';
-import ImplementationSteps from '../components/ImplementationSteps.astro';
-import ProgramGrid from '../components/ProgramGrid.astro';
-import CaseStudyGrid from '../components/CaseStudyGrid.astro';
-import Testimonial from '../components/Testimonial.astro';
-import FaqAccordion from '../components/FaqAccordion.astro';
 import ContextualCta from '../components/ContextualCta.astro';
-import { getPublishableTestimonial, getSingleton, resolve } from '../lib/content';
+import { getSingleton } from '../lib/content';
 
 const data = await getSingleton('home');
-const programs = await resolve(data.programs.programs);
-const caseStudies = await resolve(data.caseStudies.caseStudies);
-const testimonial = await getPublishableTestimonial(data.testimonial.testimonial);
-const faqs = (await resolve(data.faq.faqs)).map((f) => ({
-  question: f.data.question,
-  answer: f.data.answer,
-}));
+const { labels } = await getSingleton('siteSettings');
 ---
 
 <BaseLayout title={data.seo.title} description={data.seo.description}>
-  <Hero {...data.hero} />
+  <BrandHero {...data.hero} />
+  <TextSection {...data.intro} />
+  <Carousel
+    {...data.spotlight}
+    labels={{
+      previous: labels.carouselPrevious,
+      next: labels.carouselNext,
+      show: labels.carouselShow,
+    }}
+  />
+  <TextSection {...data.story} />
   <ProofStrip {...data.proof} />
   <AudienceRouter {...data.audienceRouter} />
-  <ImplementationSteps {...data.steps} />
-  <ProgramGrid heading={data.programs.heading} intro={data.programs.intro} programs={programs} />
-  <CaseStudyGrid
-    heading={data.caseStudies.heading}
-    intro={data.caseStudies.intro}
-    caseStudies={caseStudies}
-  />
-  {testimonial && <Testimonial {...testimonial} />}
-  <FaqAccordion heading={data.faq.heading} items={faqs} />
   <ContextualCta {...data.cta} />
 </BaseLayout>

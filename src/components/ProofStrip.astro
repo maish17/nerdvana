@@ -1,4 +1,5 @@
 ---
+/** Figures on a brand band, separated by thin rules on wide screens. */
 import { uid } from '../lib/ids';
 
 interface Props {
@@ -10,20 +11,40 @@ const { heading, items } = Astro.props;
 const id = uid('proof');
 ---
 
-<section aria-labelledby={heading ? id : undefined} class="bg-surface-muted py-xl">
+<section aria-labelledby={heading ? id : undefined} class="on-brand py-xl">
   <div class="container-page">
     {heading && (
-      <h2 id={id} class="mb-lg">
+      <h2 id={id} class="mb-lg text-center">
         {heading}
       </h2>
     )}
-    <dl class="grid grid-cols-[repeat(auto-fit,minmax(min(10rem,100%),1fr))] gap-lg">
+    <dl class="proof">
       {items.map((item) => (
-        <div class="flex flex-col-reverse">
-          <dt class="text-sm text-ink-muted">{item.label}</dt>
+        <div class="proof__item">
+          <dt class="text-sm">{item.label}</dt>
           <dd class="text-2xl font-bold">{item.value}</dd>
         </div>
       ))}
     </dl>
   </div>
 </section>
+
+<style>
+  .proof {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 1fr));
+    gap: var(--nv-space-lg) 0;
+  }
+  .proof__item {
+    display: flex;
+    flex-direction: column-reverse; /* figure above label, label still first for screen readers */
+    align-items: center;
+    padding-inline: var(--nv-space-md);
+    text-align: center;
+  }
+  @media (min-width: 48rem) {
+    .proof__item + .proof__item {
+      border-left: 1px solid rgb(255 255 255 / 0.55);
+    }
+  }
+</style>

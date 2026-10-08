@@ -56,6 +56,12 @@ const action = () =>
 
 const requiredAction = () => obj({ label: reqText(), href: href() });
 
+/** Text that must be descriptive: "Learn more" is rejected. */
+const descriptiveText = () =>
+  reqText().refine((s) => !VAGUE_LABEL_PATTERN.test(s), '"Learn more" is not allowed here');
+const optDescriptiveText = () =>
+  optText().refine((s) => !VAGUE_LABEL_PATTERN.test(s), '"Learn more" is not allowed here');
+
 /* ------------------------------------------------------------------------ */
 /* Section helpers — same names as in keystatic.config.tsx                   */
 /* ------------------------------------------------------------------------ */
@@ -83,16 +89,15 @@ const proofStripSection = () =>
 
 const audienceRouterSection = () =>
   obj({
+    eyebrow: optText(),
     heading: reqText(),
     intro: optText(),
     cards: z
       .array(
         obj({
-          label: reqText().refine(
-            (s) => !VAGUE_LABEL_PATTERN.test(s),
-            '"Learn more" is not allowed as a card label',
-          ),
+          label: descriptiveText(),
           description: optText(),
+          linkLabel: optDescriptiveText(),
           href: href(),
         }),
       )
@@ -128,15 +133,52 @@ const testimonialSection = () => obj({ testimonial: reference('testimonials').op
 
 const faqSection = () => obj({ heading: reqText(), faqs: z.array(reference('faqs')).default([]) });
 
-const ctaSection = () =>
+/** `secondary: true` allows an optional second (outline) button — homepage only. */
+const ctaSection = ({ secondary = false } = {}) =>
   obj({
     heading: reqText(),
     expectation: reqText(),
     action: requiredAction(),
+    secondaryAction: secondary ? action() : z.undefined().optional(),
     sourceTag: z.string().regex(SOURCE_TAG_PATTERN),
   });
 
 const richSection = () => obj({ heading: reqText(), body: richText() });
+
+/** Homepage hero: background photo, logo as the page heading, tagline words. */
+const brandHeroSection = () =>
+  obj({
+    heading: reqText(),
+    logo: z.string(),
+    taglineWords: z.array(reqText()).min(1).max(6),
+    background: imageWithAlt(),
+  });
+
+/** Eyebrow + heading + rich body, optionally with up to two buttons. */
+const textSection = ({ actions = false } = {}) =>
+  obj({
+    eyebrow: optText(),
+    heading: reqText(),
+    body: richText(),
+    primaryAction: actions ? action() : z.undefined().optional(),
+    secondaryAction: actions ? action() : z.undefined().optional(),
+  });
+
+/** Card carousel on a brand band. */
+const carouselSection = () =>
+  obj({
+    heading: reqText(),
+    cards: z
+      .array(
+        obj({
+          image: obj({ src: z.string(), alt: reqText() }),
+          label: descriptiveText(),
+          href: href(),
+        }),
+      )
+      .min(3)
+      .max(10),
+  });
 
 const listingSection = () => obj({ heading: reqText(), intro: optText(), emptyMessage: reqText() });
 
@@ -323,9 +365,15 @@ const siteSettings = singleton(
   'site-settings',
   obj({
     siteName: reqText(),
+    logo: obj({ src: z.string(), alt: reqText() }),
     primaryNav: z.array(navLink()).max(8).default([]),
     headerAction: action(),
-    footerNav: z.array(navLink()).default([]),
+    footerTagline: optText(),
+    footerLocation: optText(),
+    footerColumns: z
+      .array(obj({ heading: reqText(), links: z.array(navLink()).default([]) }))
+      .max(4)
+      .default([]),
     contact: obj({
       email: reqText(),
       phone: reqText(),
@@ -335,13 +383,16 @@ const siteSettings = singleton(
       postalCode: optText(),
     }),
     social: z.array(obj({ platform: z.enum(SOCIAL_PLATFORMS), url: z.url() })).default([]),
-    footerNote: optText(),
+    copyright: reqText(),
     labels: labels([
       'skipToContent',
       'primaryNavLabel',
+      'menuButton',
       'footerNavLabel',
       'socialNavLabel',
-      'contactHeading',
+      'carouselPrevious',
+      'carouselNext',
+      'carouselShow',
       'offeringAgeRange',
       'offeringSchedule',
       'offeringPrice',
@@ -365,15 +416,13 @@ const home = singleton(
   'home',
   obj({
     seo: seoSection(),
-    hero: heroSection(),
+    hero: brandHeroSection(),
+    intro: textSection({ actions: true }),
+    spotlight: carouselSection(),
+    story: textSection(),
     proof: proofStripSection(),
     audienceRouter: audienceRouterSection(),
-    steps: implementationStepsSection(),
-    programs: programsSection(),
-    caseStudies: caseStudiesSection(),
-    testimonial: testimonialSection(),
-    faq: faqSection(),
-    cta: ctaSection(),
+    cta: ctaSection({ secondary: true }),
   }),
 );
 

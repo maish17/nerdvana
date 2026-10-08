@@ -1,4 +1,10 @@
 ---
+/**
+ * Site header: logo tab + primary navigation.
+ * Wide screens show the nav inline. Narrow screens get a native
+ * <details> disclosure menu — keyboard-operable, works without JavaScript.
+ * Only one of the two navs is ever displayed (the other is display:none).
+ */
 import type { SiteSettings } from '../lib/types';
 
 interface Props {
@@ -6,43 +12,181 @@ interface Props {
 }
 
 const { settings } = Astro.props;
+const { logo, headerAction, labels } = settings;
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => href === path;
-const isSection = (href: string) => href !== '/' && path.startsWith(href);
-const { headerAction } = settings;
+const inSection = (href: string) => href !== '/' && path.startsWith(href);
+const showAction = Boolean(headerAction.label && headerAction.href);
 ---
 
-<header class="border-b border-border">
-  <div class="container-page flex flex-wrap items-center justify-between gap-md py-md">
-    <a
-      href="/"
-      class="text-lg font-bold no-underline"
-      aria-current={path === '/' ? 'page' : undefined}
-    >
-      {settings.siteName}
+<header class="site-header">
+  <div class="site-header__bar">
+    <a href="/" class="site-header__brand" aria-current={path === '/' ? 'page' : undefined}>
+      <img src={logo.src} alt={logo.alt} width="423" height="107" class="site-header__logo" />
     </a>
-    <nav aria-label={settings.labels.primaryNavLabel}>
-      <ul class="flex flex-wrap gap-x-md gap-y-xs" role="list">
+
+    <nav aria-label={labels.primaryNavLabel} class="site-header__nav">
+      <ul role="list">
         {settings.primaryNav.map((item) => (
           <li>
             <a
               href={item.href}
               aria-current={isCurrent(item.href) ? 'page' : undefined}
-              class:list={[
-                'inline-block py-2xs',
-                (isCurrent(item.href) || isSection(item.href)) && 'font-bold decoration-2',
-              ]}
+              class:list={[(isCurrent(item.href) || inSection(item.href)) && 'is-current']}
             >
               {item.label}
             </a>
           </li>
         ))}
       </ul>
+      {showAction && (
+        <a class="btn btn-primary" href={headerAction.href}>
+          {headerAction.label}
+        </a>
+      )}
     </nav>
-    {headerAction.label && headerAction.href && (
-      <a class="btn btn-primary" href={headerAction.href}>
-        {headerAction.label}
-      </a>
-    )}
+
+    <details class="site-header__menu">
+      <summary class="btn btn-secondary">
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+        {labels.menuButton}
+      </summary>
+      <nav aria-label={labels.primaryNavLabel}>
+        <ul role="list">
+          {settings.primaryNav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+                class:list={[(isCurrent(item.href) || inSection(item.href)) && 'is-current']}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        {showAction && (
+          <a class="btn btn-primary mt-md" href={headerAction.href}>
+            {headerAction.label}
+          </a>
+        )}
+      </nav>
+    </details>
   </div>
 </header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 20;
+    background: var(--nv-color-surface);
+    box-shadow: var(--nv-shadow-header);
+  }
+  .site-header__bar {
+    display: flex;
+    align-items: stretch;
+    min-height: 4.5rem;
+    padding-right: clamp(var(--nv-space-md), 3vw, var(--nv-space-2xl));
+  }
+  @media (min-width: 64rem) {
+    .site-header__bar {
+      min-height: 5.25rem;
+    }
+  }
+
+  /* White logo tab with a sweeping, shadowed right edge. */
+  .site-header__brand {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-inline: clamp(var(--nv-space-md), 3vw, var(--nv-space-2xl))
+      clamp(var(--nv-space-xl), 5vw, 5rem);
+    background: var(--nv-color-surface);
+    border-bottom-right-radius: 4rem;
+    box-shadow: 8px 2px 10px -6px rgb(0 0 0 / 0.35);
+  }
+  .site-header__logo {
+    width: clamp(9rem, 14vw, 13.5rem);
+    height: auto;
+  }
+
+  .site-header__nav {
+    display: none;
+  }
+  @media (min-width: 64rem) {
+    .site-header__nav {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      gap: var(--nv-space-lg);
+      padding-left: var(--nv-space-xl);
+    }
+    .site-header__nav ul {
+      display: flex;
+      flex: 1;
+      justify-content: space-between;
+      gap: var(--nv-space-md);
+    }
+  }
+  .site-header__nav a:not(.btn),
+  .site-header__menu nav a:not(.btn) {
+    display: inline-block;
+    padding-block: var(--nv-space-xs);
+    font-size: var(--nv-font-size-sm);
+    font-weight: 500;
+    color: var(--nv-color-ink-muted);
+    text-decoration: none;
+  }
+  .site-header a:not(.btn):hover,
+  .site-header .is-current {
+    color: var(--nv-color-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.4em;
+  }
+
+  .site-header__menu {
+    margin-left: auto;
+    align-self: center;
+  }
+  .site-header__menu summary {
+    gap: var(--nv-space-xs);
+    list-style: none;
+  }
+  .site-header__menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .site-header__menu nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    padding: var(--nv-space-md) clamp(var(--nv-space-md), 5vw, var(--nv-space-2xl))
+      var(--nv-space-lg);
+    background: var(--nv-color-surface);
+    box-shadow: var(--nv-shadow-header);
+  }
+  .site-header__menu nav ul {
+    display: grid;
+    gap: var(--nv-space-2xs);
+  }
+  .site-header__menu nav a:not(.btn) {
+    font-size: var(--nv-font-size-base);
+  }
+  @media (min-width: 64rem) {
+    .site-header__menu {
+      display: none;
+    }
+  }
+</style>

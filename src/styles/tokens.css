@@ -1,34 +1,44 @@
 /**
  * DESIGN TOKENS — the single source of brand values.
  *
- * Neutral skeleton theme. Visual design is a separate, approved stage: replace
- * values here, not in components. Tailwind reads these via `@theme inline` in
- * global.css, so utilities like `bg-primary` or `p-md` always reflect them. Tokens use the
+ * Values follow the approved homepage design. Change values here, not in
+ * components. Tailwind reads these via `@theme inline` in global.css, so
+ * utilities like `bg-primary` or `p-md` always reflect them. Tokens use the
  * `--nv-` prefix so they never collide with Tailwind's own theme variables.
  *
- * Rule: --color-primary is used ONLY for the primary button fill. Everything
- * else stays grayscale until the visual design stage says otherwise.
+ * Contrast notes are against the surface each color is used on.
  */
 :root {
-  /* Color — grayscale + one brand primary */
-  --nv-color-primary: #a40084; /* 7.2:1 against white text */
+  /* Brand */
+  --nv-color-primary: #91399c; /* purple bands, buttons, eyebrows — 6.4:1 with white */
   --nv-color-on-primary: #ffffff;
-  --nv-color-ink: #111111; /* body text */
-  --nv-color-ink-muted: #4a4a4a; /* secondary text, 8.9:1 on white */
-  --nv-color-surface: #ffffff;
-  --nv-color-surface-muted: #f2f2f2;
-  --nv-color-border: #767676; /* 4.5:1 on white — passes for UI boundaries */
-  --nv-color-placeholder: #d9d9d9; /* image placeholders */
-  --nv-color-focus: #111111; /* focus ring; paired with a white offset ring */
 
-  /* Typography */
+  /* Neutrals */
+  --nv-color-ink: #18141c; /* headings and strong text */
+  --nv-color-ink-muted: #5f5a63; /* body copy — 6.7:1 on white */
+  --nv-color-surface: #ffffff;
+  --nv-color-surface-muted: #f6f5f7;
+  --nv-color-border: #767676; /* form controls — 4.5:1 on white */
+  --nv-color-border-subtle: #e3e1e6; /* decorative card outlines */
+  --nv-color-placeholder: #c4c4c4; /* image placeholders */
+
+  /* Dark surfaces */
+  --nv-color-night: #16181b; /* carousel stripe, dark buttons */
+  --nv-color-footer: #1a1221;
+  --nv-color-footer-muted: #a49ea9; /* footer links — 7.0:1 on footer */
+
+  /* Focus ring (overridden to white on dark/brand surfaces in global.css) */
+  --nv-color-focus: #18141c;
+
+  /* Typography — Montserrat is self-hosted via @fontsource-variable/montserrat */
   --nv-font-family-base:
-    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    'Montserrat Variable', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --nv-font-size-xs: 0.8125rem;
   --nv-font-size-sm: 0.875rem;
   --nv-font-size-base: 1rem;
   --nv-font-size-lg: 1.25rem;
   --nv-font-size-xl: 1.5rem;
-  --nv-font-size-2xl: 2rem;
+  --nv-font-size-2xl: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
   --nv-font-size-3xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);
   --nv-line-height-tight: 1.2;
   --nv-line-height-base: 1.6;
@@ -41,12 +51,17 @@
   --nv-space-lg: 1.5rem;
   --nv-space-xl: 2.5rem;
   --nv-space-2xl: 4rem;
+  --nv-space-3xl: 6rem;
 
   /* Radius */
-  --nv-radius-sm: 0.25rem;
-  --nv-radius-md: 0.5rem;
+  --nv-radius-sm: 0.375rem;
+  --nv-radius-md: 0.75rem;
+
+  /* Shadow */
+  --nv-shadow-card: 0 6px 18px rgb(0 0 0 / 0.25);
+  --nv-shadow-header: 0 4px 14px rgb(0 0 0 / 0.12);
 
   /* Layout */
   --nv-measure: 70ch;
-  --nv-container: 72rem;
+  --nv-container: 80rem;
 }

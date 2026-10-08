@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
-  <rect width="1600" height="900" fill="#d9d9d9"/>
-  <path d="M0 0L1600 900M1600 0L0 900" stroke="#bdbdbd" stroke-width="4"/>
-  <text x="50%" y="50%" font-family="system-ui, sans-serif" font-size="57" fill="#4a4a4a" text-anchor="middle" dominant-baseline="middle">[PLACEHOLDER] 16:9 · 1600×900</text>
-</svg>

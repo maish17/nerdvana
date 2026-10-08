@@ -1,0 +1,353 @@
+---
+/**
+ * Card carousel on a brand band.
+ *
+ * Without JavaScript it is a horizontally scrollable, snapping list — every
+ * card and link is reachable. The script adds previous/next arrows, dots, and
+ * the enlarged center card. It never autoplays, and respects reduced motion.
+ * Focusing a card's link (Tab) centers that card.
+ */
+import { uid } from '../lib/ids';
+import { VAGUE_LABEL_PATTERN } from '../lib/content-options';
+
+interface Props {
+  heading: string;
+  cards: { image: { src: string; alt: string }; label: string; href: string }[];
+  labels: { previous: string; next: string; show: string };
+}
+
+const { heading, cards, labels } = Astro.props;
+
+const vague = cards.find((c) => VAGUE_LABEL_PATTERN.test(c.label));
+if (vague) throw new Error(`Carousel button "${vague.label}" is not descriptive.`);
+const missingAlt = cards.find((c) => !c.image.alt?.trim());
+if (missingAlt) throw new Error(`Carousel image ${missingAlt.image.src} has no alt text.`);
+
+const headingId = uid('carousel');
+const trackId = `${headingId}-track`;
+const arrow = (dir: 'left' | 'right') =>
+  dir === 'left' ? 'M14 7l-5 5 5 5M9 12h10' : 'M10 7l5 5-5 5M15 12H5';
+---
+
+<section class="carousel-band on-brand" aria-labelledby={headingId}>
+  <div class="container-page">
+    <h2 id={headingId} class="text-center">
+      {heading}
+    </h2>
+  </div>
+
+  <div
+    class="carousel"
+    data-carousel
+    role="region"
+    aria-roledescription="carousel"
+    aria-labelledby={headingId}
+  >
+    <div class="carousel__viewport">
+      <button
+        type="button"
+        class="carousel__arrow carousel__arrow--prev"
+        data-prev
+        aria-controls={trackId}
+        aria-label={labels.previous}
+        hidden
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d={arrow('left')}></path>
+        </svg>
+      </button>
+
+      <ul class="carousel__track" id={trackId} data-track role="list">
+        {cards.map((card, i) => (
+          <li
+            class="carousel__slide"
+            data-slide
+            aria-roledescription="slide"
+            aria-label={`${i + 1} / ${cards.length}`}
+          >
+            <img
+              src={card.image.src}
+              alt={card.image.alt}
+              width="700"
+              height="800"
+              class="carousel__img"
+              loading="lazy"
+              decoding="async"
+            />
+            <a class="carousel__btn" href={card.href}>
+              {card.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <button
+        type="button"
+        class="carousel__arrow carousel__arrow--next"
+        data-next
+        aria-controls={trackId}
+        aria-label={labels.next}
+        hidden
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d={arrow('right')}></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="carousel__dots" data-dots hidden>
+      {cards.map((card, i) => (
+        <button
+          type="button"
+          class="carousel__dot"
+          data-dot={i}
+          aria-controls={trackId}
+          aria-label={`${labels.show}: ${card.label}`}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-carousel]')) {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-next]');
+    const dotsBox = root.querySelector<HTMLElement>('[data-dots]');
+    if (!track || !prev || !next || !dotsBox) continue;
+    const slides = [...track.querySelectorAll<HTMLElement>('[data-slide]')];
+    const dots = [...dotsBox.querySelectorAll<HTMLButtonElement>('[data-dot]')];
+    let active = -1;
+
+    // Distance from a slide's center to the track's visible center (rects, not
+    // offsetLeft: offsets inside a centered scroll container are unreliable).
+    const offsetFromCenter = (slide: HTMLElement) => {
+      const t = track.getBoundingClientRect();
+      const r = slide.getBoundingClientRect();
+      return r.left + r.width / 2 - (t.left + track.clientLeft + track.clientWidth / 2);
+    };
+
+    const center = (index: number, smooth = true) => {
+      const slide = slides[index];
+      if (!slide) return;
+      track.scrollTo({
+        left: track.scrollLeft + offsetFromCenter(slide),
+        behavior: smooth && !reduceMotion() ? 'smooth' : 'auto',
+      });
+    };
+
+    const update = () => {
+      let best = 0;
+      let bestDistance = Infinity;
+      slides.forEach((slide, i) => {
+        const distance = Math.abs(offsetFromCenter(slide));
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = i;
+        }
+      });
+      if (best === active) return;
+      active = best;
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === best));
+      dots.forEach((dot, i) =>
+        i === best ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current'),
+      );
+      // aria-disabled (not disabled) keeps keyboard focus on the button at either end.
+      prev.setAttribute('aria-disabled', String(best === 0));
+      next.setAttribute('aria-disabled', String(best === slides.length - 1));
+    };
+
+    let frame = 0;
+    track.addEventListener(
+      'scroll',
+      () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(update);
+      },
+      { passive: true },
+    );
+    prev.addEventListener('click', () => active > 0 && center(active - 1));
+    next.addEventListener('click', () => active < slides.length - 1 && center(active + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => center(i)));
+    track.addEventListener('focusin', (event) => {
+      const i = slides.findIndex((slide) => slide.contains(event.target as Node));
+      if (i >= 0 && i !== active) center(i);
+    });
+    window.addEventListener('resize', () => center(active, false));
+
+    root.classList.add('is-enhanced');
+    prev.hidden = false;
+    next.hidden = false;
+    dotsBox.hidden = false;
+    // Open on the second card so cards show on both sides, as in the design.
+    center(Math.min(1, slides.length - 1), false);
+    update();
+  }
+</script>
+
+<style>
+  .carousel-band {
+    padding-block: var(--nv-space-2xl) var(--nv-space-xl);
+  }
+  .carousel {
+    --card-w: clamp(13rem, 25vw, 22rem);
+    margin-top: var(--nv-space-lg);
+  }
+  .carousel__viewport {
+    position: relative;
+  }
+  /* Dark stripe behind the middle of the cards. */
+  .carousel__viewport::before {
+    content: '';
+    position: absolute;
+    inset: 22% 0 18%;
+    background: var(--nv-color-night);
+  }
+
+  .carousel__track {
+    --gap: clamp(var(--nv-space-md), 3vw, var(--nv-space-xl));
+    position: relative;
+    display: flex;
+    gap: var(--gap);
+    max-width: calc(var(--card-w) * 3 + var(--gap) * 2);
+    margin: 0 auto;
+    padding: var(--nv-space-lg) calc(50% - var(--card-w) / 2);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    list-style: none;
+  }
+  .carousel.is-enhanced .carousel__track {
+    scrollbar-width: none;
+  }
+  .carousel.is-enhanced .carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel__slide {
+    position: relative;
+    flex: 0 0 var(--card-w);
+    aspect-ratio: 7 / 8;
+    overflow: hidden;
+    border-radius: var(--nv-radius-sm);
+    background: var(--nv-color-placeholder);
+    box-shadow: var(--nv-shadow-card);
+    scroll-snap-align: center;
+    transition: transform 0.3s ease;
+  }
+  .carousel.is-enhanced .carousel__slide:not(.is-active) {
+    transform: scale(0.92);
+  }
+  .carousel__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .carousel__btn {
+    position: absolute;
+    left: var(--nv-space-md);
+    right: var(--nv-space-md);
+    bottom: var(--nv-space-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: var(--nv-space-xs) var(--nv-space-sm);
+    border-radius: var(--nv-radius-sm);
+    background: var(--nv-color-night);
+    color: #ffffff;
+    font-size: var(--nv-font-size-sm);
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+  }
+  .carousel__btn:hover {
+    text-decoration: underline;
+  }
+  .carousel__btn:focus-visible {
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px var(--nv-color-night);
+  }
+
+  .carousel__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: clamp(3rem, 4.5vw, 4.25rem);
+    height: clamp(3rem, 4.5vw, 4.25rem);
+    padding: 0.7rem;
+    border: 3px solid #ffffff;
+    border-radius: 999px;
+    background: var(--nv-color-primary);
+    box-shadow: 0 0 0 4px var(--nv-color-primary);
+    color: #ffffff;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .carousel__arrow--prev {
+    left: clamp(var(--nv-space-xs), 2vw, var(--nv-space-xl));
+  }
+  .carousel__arrow--next {
+    right: clamp(var(--nv-space-xs), 2vw, var(--nv-space-xl));
+  }
+  .carousel__arrow[aria-disabled='true'] {
+    opacity: 0.45;
+    cursor: default;
+  }
+  .carousel__arrow[hidden],
+  .carousel__dots[hidden] {
+    display: none;
+  }
+
+  .carousel__dots {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--nv-space-md);
+  }
+  /* 24px hit area around a small visual dot. */
+  .carousel__dot {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .carousel__dot::before {
+    content: '';
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.4);
+  }
+  .carousel__dot[aria-current='true']::before {
+    width: 0.9rem;
+    height: 0.9rem;
+    background: #ffffff;
+  }
+</style>

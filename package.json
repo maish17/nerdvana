@@ -16,6 +16,7 @@
     "@astrojs/netlify": "^8.2.9",
     "@astrojs/react": "^7.0.1",
     "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/montserrat": "^5.3.0",
     "@keystatic/astro": "^6.0.0",
     "@keystatic/core": "^0.6.9",
     "@markdoc/markdoc": "^0.4.0",

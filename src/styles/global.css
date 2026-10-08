@@ -1,3 +1,4 @@
+@import '@fontsource-variable/montserrat/wght.css';
 @import 'tailwindcss';
 @import './tokens.css';
 
@@ -18,11 +19,16 @@
   --color-surface: var(--nv-color-surface);
   --color-surface-muted: var(--nv-color-surface-muted);
   --color-border: var(--nv-color-border);
+  --color-border-subtle: var(--nv-color-border-subtle);
   --color-placeholder: var(--nv-color-placeholder);
+  --color-night: var(--nv-color-night);
+  --color-footer: var(--nv-color-footer);
+  --color-footer-muted: var(--nv-color-footer-muted);
   --color-focus: var(--nv-color-focus);
 
   --font-sans: var(--nv-font-family-base);
 
+  --text-xs: var(--nv-font-size-xs);
   --text-sm: var(--nv-font-size-sm);
   --text-base: var(--nv-font-size-base);
   --text-lg: var(--nv-font-size-lg);
@@ -37,6 +43,7 @@
   --spacing-lg: var(--nv-space-lg);
   --spacing-xl: var(--nv-space-xl);
   --spacing-2xl: var(--nv-space-2xl);
+  --spacing-3xl: var(--nv-space-3xl);
 
   --radius-sm: var(--nv-radius-sm);
   --radius-md: var(--nv-radius-md);
@@ -76,7 +83,7 @@
     font-size: var(--nv-font-size-lg);
   }
 
-  /* Links are underlined: never conveyed by color alone. */
+  /* Links in running text are underlined: never conveyed by color alone. */
   a {
     color: inherit;
     text-decoration: underline;
@@ -88,11 +95,10 @@
     height: auto;
   }
 
-  /* Visible focus for every interactive element. Two rings so it shows on any background. */
+  /* Visible focus for every interactive element. */
   :focus-visible {
-    outline: 3px solid var(--nv-color-focus);
-    outline-offset: 2px;
-    box-shadow: 0 0 0 2px var(--nv-color-surface);
+    outline: 3px solid var(--nv-focus-ring, var(--nv-color-focus));
+    outline-offset: 3px;
   }
 
   input,
@@ -113,15 +119,40 @@
     width: 100%;
     max-width: var(--nv-container);
     margin-inline: auto;
-    padding-inline: var(--nv-space-md);
+    padding-inline: clamp(var(--nv-space-md), 5vw, var(--nv-space-2xl));
   }
 
-  /* Rich text from the CMS */
+  /* Dark and brand-colored surfaces: white text, white focus ring, inverted buttons. */
+  .on-brand,
+  .on-dark {
+    --nv-focus-ring: #ffffff;
+    color: #ffffff;
+  }
+  .on-brand {
+    background: var(--nv-color-primary);
+  }
+
+  .eyebrow {
+    font-size: var(--nv-font-size-sm);
+    font-weight: 700;
+    color: var(--nv-color-primary);
+  }
+
+  /* Rich text and body copy from the CMS */
+  .prose-basic {
+    max-width: var(--nv-measure);
+    color: var(--nv-color-ink-muted);
+  }
+  .prose-wide {
+    max-width: none;
+  }
   .prose-basic > * + * {
     margin-top: var(--nv-space-md);
   }
-  .prose-basic {
-    max-width: var(--nv-measure);
+  .prose-basic h3,
+  .prose-basic h4,
+  .prose-basic strong {
+    color: var(--nv-color-ink);
   }
   .prose-basic ul {
     list-style: disc;
@@ -136,7 +167,10 @@
     padding-left: var(--nv-space-md);
   }
 
-  /* Buttons: exactly two styles. */
+  /*
+   * Buttons: exactly two styles — filled (primary) and outline (secondary).
+   * On .on-brand / .on-dark surfaces they invert to stay visible.
+   */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -145,6 +179,7 @@
     padding: var(--nv-space-xs) var(--nv-space-lg);
     border: 2px solid transparent;
     border-radius: var(--nv-radius-sm);
+    font-size: var(--nv-font-size-sm);
     font-weight: 600;
     text-decoration: none;
     text-align: center;
@@ -156,17 +191,20 @@
   }
   .btn-secondary {
     background: transparent;
-    color: var(--nv-color-ink);
-    border-color: var(--nv-color-ink);
+    color: var(--nv-color-primary);
+    border-color: var(--nv-color-primary);
   }
-  .btn-primary:hover,
-  .btn-secondary:hover {
+  :is(.on-brand, .on-dark) .btn-primary {
+    background: #ffffff;
+    color: var(--nv-color-primary);
+    border-color: #ffffff;
+  }
+  :is(.on-brand, .on-dark) .btn-secondary {
+    color: #ffffff;
+    border-color: #ffffff;
+  }
+  .btn:hover {
     text-decoration: underline;
-  }
-  .btn:focus-visible {
-    outline: 3px solid var(--nv-color-focus);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 3px var(--nv-color-surface);
   }
 
   .placeholder-media {
@@ -183,10 +221,21 @@
   }
 
   .card {
-    border: 1px solid var(--nv-color-border);
+    border: 1px solid var(--nv-color-border-subtle);
     border-radius: var(--nv-radius-md);
     padding: var(--nv-space-lg);
     background: var(--nv-color-surface);
+  }
+
+  /* Standalone "go" links (not in running text): arrow instead of underline. */
+  .link-arrow {
+    font-size: var(--nv-font-size-xs);
+    font-weight: 700;
+    color: var(--nv-color-primary);
+    text-decoration: none;
+  }
+  .link-arrow:hover {
+    text-decoration: underline;
   }
 }
 

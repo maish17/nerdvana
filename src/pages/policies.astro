@@ -16,13 +16,13 @@ const data = await getSingleton('policies');
       {formatDate(data.lastUpdated)}
     </time>
   </p>
-  <Section heading={data.privacy.heading}>
+  <Section id="privacy" heading={data.privacy.heading}>
     <RichText content={data.privacy.body} />
   </Section>
-  <Section heading={data.accessibility.heading}>
+  <Section id="accessibility" heading={data.accessibility.heading}>
     <RichText content={data.accessibility.body} />
   </Section>
-  <Section heading={data.other.heading}>
+  <Section id="other" heading={data.other.heading}>
     <RichText content={data.other.body} />
   </Section>
 </BaseLayout>
