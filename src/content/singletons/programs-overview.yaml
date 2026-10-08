@@ -1,0 +1,48 @@
+seo:
+  title: '[PLACEHOLDER] Programs'
+  description: '[PLACEHOLDER] Search result description for the programs page.'
+hero:
+  eyebrow: '[PLACEHOLDER] Eyebrow'
+  heading: '[PLACEHOLDER] Programs overview heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction:
+    label: '[PLACEHOLDER] Plan a partnership'
+    href: /contact/
+  secondaryAction:
+    label: '[PLACEHOLDER] See programs'
+    href: /programs/
+  image:
+    src: /images/singletons/programs-overview/hero.svg
+    alt: '[PLACEHOLDER] Description of the programs overview hero image'
+intro:
+  heading: '[PLACEHOLDER] Programs intro heading'
+  body: |
+    [PLACEHOLDER] Programs intro paragraph with **bold text** and a [placeholder link](/about/).
+
+    ### [PLACEHOLDER] Subheading
+
+    - [PLACEHOLDER] List item one
+    - [PLACEHOLDER] List item two
+    - [PLACEHOLDER] List item three
+list:
+  heading: '[PLACEHOLDER] All programs'
+  intro: '[PLACEHOLDER] Intro to the programs list.'
+  emptyMessage: '[PLACEHOLDER] No programs yet.'
+cta:
+  heading: '[PLACEHOLDER] Call-to-action heading'
+  expectation: '[PLACEHOLDER] One line telling the visitor exactly what happens when they click.'
+  action:
+    label: '[PLACEHOLDER] Start planning'
+    href: /contact/
+  sourceTag: programs-cta
+detailLabels:
+  audience: '[PLACEHOLDER] Audience'
+  gradeRange: '[PLACEHOLDER] Grades'
+  format: '[PLACEHOLDER] Format'
+  duration: '[PLACEHOLDER] Duration'
+  whatStudentsDo: '[PLACEHOLDER] What students do'
+  outcomes: '[PLACEHOLDER] Outcomes'
+  includes: '[PLACEHOLDER] What is included'
+  partnerRequirements: '[PLACEHOLDER] Partner requirements'
+  relatedCaseStudies: '[PLACEHOLDER] Related case studies'
+  relatedFaqs: '[PLACEHOLDER] Questions about this program'

@@ -1,0 +1,40 @@
+---
+/**
+ * Media gallery: images only, lazy-loaded, never autoplaying.
+ * Every image requires alt text; an empty alt fails the build.
+ */
+import Section from './Section.astro';
+
+interface Props {
+  heading: string;
+  images: { src: string; alt: string; caption?: string }[];
+}
+
+const { heading, images } = Astro.props;
+
+const missing = images.find((img) => !img.alt?.trim());
+if (missing) throw new Error(`Gallery image ${missing.src} has no alt text.`);
+---
+
+<Section heading={heading}>
+  <ul class="grid-cards" role="list">
+    {images.map((img) => (
+      <li>
+        <figure>
+          <img
+            src={img.src}
+            alt={img.alt}
+            width="1200"
+            height="800"
+            class="placeholder-media aspect-[3/2] rounded-sm"
+            loading="lazy"
+            decoding="async"
+          />
+          {img.caption && (
+            <figcaption class="mt-xs text-sm text-ink-muted">{img.caption}</figcaption>
+          )}
+        </figure>
+      </li>
+    ))}
+  </ul>
+</Section>

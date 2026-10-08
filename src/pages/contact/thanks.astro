@@ -1,0 +1,17 @@
+---
+/** Netlify Forms redirects here after a successful planning-form submission. Not indexed. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSingleton } from '../../lib/content';
+
+const { thanks } = await getSingleton('contact');
+---
+
+<BaseLayout title={thanks.seo.title} description={thanks.seo.description} noindex>
+  <section class="container-page py-2xl" aria-labelledby="thanks-title">
+    <h1 id="thanks-title">{thanks.heading}</h1>
+    {thanks.body && <p class="mt-md max-w-measure text-lg">{thanks.body}</p>}
+    <p class="mt-lg">
+      <a href={thanks.linkHref}>{thanks.linkLabel}</a>
+    </p>
+  </section>
+</BaseLayout>

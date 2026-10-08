@@ -1,0 +1,6 @@
+legacy/
+dist/
+.astro/
+.netlify/
+node_modules/
+package-lock.json

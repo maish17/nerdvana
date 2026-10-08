@@ -1,0 +1,48 @@
+title: '[PLACEHOLDER] Example ISD Summer Program'
+partnerName: '[PLACEHOLDER] Example ISD'
+partnerContext: |-
+  [PLACEHOLDER] Partner context, first paragraph.
+
+  [PLACEHOLDER] Partner context, second paragraph.
+challenge: |-
+  [PLACEHOLDER] Challenge, first paragraph.
+
+  [PLACEHOLDER] Challenge, second paragraph.
+objectives: |-
+  [PLACEHOLDER] Objectives, first paragraph.
+
+  [PLACEHOLDER] Objectives, second paragraph.
+deliveryModel: |-
+  [PLACEHOLDER] Delivery model, first paragraph.
+
+  [PLACEHOLDER] Delivery model, second paragraph.
+timeline: |-
+  [PLACEHOLDER] Timeline, first paragraph.
+
+  [PLACEHOLDER] Timeline, second paragraph.
+reachStudents: 1234
+reachCampuses: 12
+outcomes:
+  - '[PLACEHOLDER] Outcome 1'
+  - '[PLACEHOLDER] Outcome 2'
+  - '[PLACEHOLDER] Outcome 3'
+studentQuote: '[PLACEHOLDER] A short quote from a student about the program.'
+leaderQuote:
+  text: >-
+    [PLACEHOLDER] A quote from a district leader about the partnership, one or
+    two sentences long.
+  name: '[PLACEHOLDER] Alex Example'
+  role: '[PLACEHOLDER] Assistant Superintendent'
+  organization: '[PLACEHOLDER] Example ISD'
+lessons: |-
+  [PLACEHOLDER] Lessons learned, first paragraph.
+
+  [PLACEHOLDER] Lessons learned, second paragraph.
+nextPhase: |-
+  [PLACEHOLDER] Next phase, first paragraph.
+
+  [PLACEHOLDER] Next phase, second paragraph.
+reportFile: /files/case-studies/example-isd-summer-program/reportFile.pdf
+heroImage:
+  src: /images/case-studies/example-isd-summer-program/heroImage/src.svg
+  alt: '[PLACEHOLDER] Description of the case study hero image'

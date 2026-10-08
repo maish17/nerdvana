@@ -1,0 +1,47 @@
+---
+/** Shared template for the five /solutions/* pages and /workforce/pre-ets/. Section order is fixed. */
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import RichText from '../components/RichText.astro';
+import ProofStrip from '../components/ProofStrip.astro';
+import ImplementationSteps from '../components/ImplementationSteps.astro';
+import ProgramGrid from '../components/ProgramGrid.astro';
+import CaseStudyGrid from '../components/CaseStudyGrid.astro';
+import Testimonial from '../components/Testimonial.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import ContextualCta from '../components/ContextualCta.astro';
+import { getPublishableTestimonial, resolve } from '../lib/content';
+import type { SolutionPageData } from '../lib/types';
+
+interface Props {
+  data: SolutionPageData;
+}
+
+const { data } = Astro.props;
+const programs = await resolve(data.programs.programs);
+const caseStudies = await resolve(data.caseStudies.caseStudies);
+const testimonial = await getPublishableTestimonial(data.testimonial.testimonial);
+const faqs = (await resolve(data.faq.faqs)).map((f) => ({
+  question: f.data.question,
+  answer: f.data.answer,
+}));
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <Hero {...data.hero} />
+  <Section heading={data.challenge.heading}>
+    <RichText content={data.challenge.body} />
+  </Section>
+  <ProofStrip {...data.proof} />
+  <ImplementationSteps {...data.approach} />
+  <ProgramGrid heading={data.programs.heading} intro={data.programs.intro} programs={programs} />
+  <CaseStudyGrid
+    heading={data.caseStudies.heading}
+    intro={data.caseStudies.intro}
+    caseStudies={caseStudies}
+  />
+  {testimonial && <Testimonial {...testimonial} />}
+  <FaqAccordion heading={data.faq.heading} items={faqs} />
+  <ContextualCta {...data.cta} />
+</BaseLayout>

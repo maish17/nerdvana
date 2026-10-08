@@ -1,0 +1,65 @@
+---
+import type { SiteSettings } from '../lib/types';
+import { SOCIAL_PLATFORM_OPTIONS } from '../lib/content-options';
+import { uid } from '../lib/ids';
+
+interface Props {
+  settings: SiteSettings;
+}
+
+const { settings } = Astro.props;
+const { contact, labels } = settings;
+const contactId = uid('footer-contact');
+const year = new Date().getFullYear();
+const platformLabel = (p: string) => SOCIAL_PLATFORM_OPTIONS.find((o) => o.value === p)?.label ?? p;
+const cityLine = [contact.city, [contact.region, contact.postalCode].filter(Boolean).join(' ')]
+  .filter(Boolean)
+  .join(', ');
+---
+
+<footer class="mt-2xl border-t border-border bg-surface-muted">
+  <div class="container-page grid gap-xl py-2xl md:grid-cols-3">
+    <section aria-labelledby={contactId}>
+      <h2 id={contactId} class="text-lg">
+        {labels.contactHeading}
+      </h2>
+      <address class="mt-sm grid gap-2xs not-italic">
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        <a href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}>{contact.phone}</a>
+        {contact.street && <span>{contact.street}</span>}
+        {cityLine && <span>{cityLine}</span>}
+      </address>
+    </section>
+
+    {settings.footerNav.length > 0 && (
+      <nav aria-label={labels.footerNavLabel}>
+        <ul class="grid gap-2xs" role="list">
+          {settings.footerNav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
+    {settings.social.length > 0 && (
+      <nav aria-label={labels.socialNavLabel}>
+        <ul class="grid gap-2xs" role="list">
+          {settings.social.map((s) => (
+            <li>
+              <a href={s.url} rel="noopener">
+                {platformLabel(s.platform)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+  </div>
+  <div class="container-page pb-lg text-sm text-ink-muted">
+    <p>
+      &copy; {year} {settings.footerNote || settings.siteName}
+    </p>
+  </div>
+</footer>

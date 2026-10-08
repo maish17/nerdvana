@@ -1,0 +1,10 @@
+title: '[PLACEHOLDER] Example Implementation Guide'
+resourceType: guide
+audience:
+  - district
+description: '[PLACEHOLDER] One or two sentences describing what this resource covers.'
+file: /files/resources/example-implementation-guide/file.pdf
+lastUpdated: 2026-01-15
+relatedPages:
+  - /solutions/district-partnerships/
+  - /programs/drone-flight-autonomy/

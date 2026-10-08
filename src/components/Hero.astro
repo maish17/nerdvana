@@ -1,0 +1,74 @@
+---
+/**
+ * Hero. Single static composition — never a carousel or slider.
+ * Renders the page's <h1> by default; pass headingLevel={2} for a
+ * secondary hero on a free-form page.
+ */
+import { uid } from '../lib/ids';
+
+interface Action {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  lede?: string;
+  primaryAction?: Action;
+  secondaryAction?: Action;
+  image?: { src?: string; alt: string };
+  headingLevel?: 1 | 2;
+}
+
+const {
+  eyebrow,
+  heading,
+  lede,
+  primaryAction,
+  secondaryAction,
+  image,
+  headingLevel = 1,
+} = Astro.props;
+const Heading = headingLevel === 1 ? 'h1' : 'h2';
+const id = uid('hero');
+const show = (a?: Action): a is Required<Action> => Boolean(a?.label && a.href);
+---
+
+<section aria-labelledby={id} class="py-2xl">
+  <div class:list={['container-page grid items-center gap-xl', image?.src && 'md:grid-cols-2']}>
+    <div>
+      {eyebrow && <p class="font-semibold text-ink-muted">{eyebrow}</p>}
+      <Heading id={id} class="mt-xs">
+        {heading}
+      </Heading>
+      {lede && <p class="mt-md max-w-measure text-lg">{lede}</p>}
+      {(show(primaryAction) || show(secondaryAction)) && (
+        <div class="mt-lg flex flex-wrap gap-sm">
+          {show(primaryAction) && (
+            <a class="btn btn-primary" href={primaryAction.href}>
+              {primaryAction.label}
+            </a>
+          )}
+          {show(secondaryAction) && (
+            <a class="btn btn-secondary" href={secondaryAction.href}>
+              {secondaryAction.label}
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+    {image?.src && (
+      <img
+        src={image.src}
+        alt={image.alt}
+        width="1600"
+        height="900"
+        class="placeholder-media aspect-video rounded-md"
+        fetchpriority={headingLevel === 1 ? 'high' : undefined}
+        loading={headingLevel === 1 ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    )}
+  </div>
+</section>

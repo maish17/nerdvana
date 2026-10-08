@@ -1,0 +1,23 @@
+---
+/** Shared section shell: landmark, h2, optional intro. */
+import { uid } from '../lib/ids';
+
+interface Props {
+  heading: string;
+  intro?: string;
+  muted?: boolean;
+}
+
+const { heading, intro, muted = false } = Astro.props;
+const id = uid('section');
+---
+
+<section aria-labelledby={id} class:list={['py-2xl', muted && 'bg-surface-muted']}>
+  <div class="container-page">
+    <h2 id={id}>{heading}</h2>
+    {intro && <p class="mt-sm max-w-measure text-ink-muted">{intro}</p>}
+    <div class="mt-lg">
+      <slot />
+    </div>
+  </div>
+</section>

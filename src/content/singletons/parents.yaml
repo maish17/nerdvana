@@ -1,0 +1,44 @@
+seo:
+  title: '[PLACEHOLDER] Parents'
+  description: '[PLACEHOLDER] Search result description for the parents page.'
+hero:
+  eyebrow: '[PLACEHOLDER] Eyebrow'
+  heading: '[PLACEHOLDER] Parents heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction:
+    label: '[PLACEHOLDER] Plan a partnership'
+    href: /contact/
+  secondaryAction:
+    label: '[PLACEHOLDER] See programs'
+    href: /programs/
+  image:
+    src: /images/singletons/parents/hero.svg
+    alt: '[PLACEHOLDER] Description of the parents hero image'
+intro:
+  heading: '[PLACEHOLDER] Parents intro heading'
+  body: |
+    [PLACEHOLDER] Parents intro paragraph with **bold text** and a [placeholder link](/about/).
+
+    ### [PLACEHOLDER] Subheading
+
+    - [PLACEHOLDER] List item one
+    - [PLACEHOLDER] List item two
+    - [PLACEHOLDER] List item three
+offerings:
+  heading: '[PLACEHOLDER] All offerings'
+  intro: '[PLACEHOLDER] Intro to the offerings list.'
+  emptyMessage: '[PLACEHOLDER] No offerings yet.'
+faq:
+  heading: '[PLACEHOLDER] Frequently asked questions'
+  faqs:
+    - example-question-one
+    - example-question-two
+testimonial:
+  testimonial: jordan-example
+cta:
+  heading: '[PLACEHOLDER] Call-to-action heading'
+  expectation: '[PLACEHOLDER] One line telling the visitor exactly what happens when they click.'
+  action:
+    label: '[PLACEHOLDER] Start planning'
+    href: /contact/
+  sourceTag: parents-cta

@@ -1,0 +1,71 @@
+seo:
+  title: '[PLACEHOLDER] CTE & STEM innovation'
+  description: '[PLACEHOLDER] Search result description for the cte & stem innovation page.'
+hero:
+  eyebrow: '[PLACEHOLDER] Eyebrow'
+  heading: '[PLACEHOLDER] CTE & STEM innovation heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction:
+    label: '[PLACEHOLDER] Plan a partnership'
+    href: /contact/
+  secondaryAction:
+    label: '[PLACEHOLDER] See programs'
+    href: /programs/
+  image:
+    src: /images/singletons/cte-stem-innovation/hero.svg
+    alt: '[PLACEHOLDER] Description of the cte & stem innovation hero image'
+challenge:
+  heading: '[PLACEHOLDER] Challenge heading'
+  body: |
+    [PLACEHOLDER] Challenge paragraph with **bold text** and a [placeholder link](/about/).
+
+    ### [PLACEHOLDER] Subheading
+
+    - [PLACEHOLDER] List item one
+    - [PLACEHOLDER] List item two
+    - [PLACEHOLDER] List item three
+proof:
+  heading: '[PLACEHOLDER] By the numbers'
+  items:
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] First metric'
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] Second metric'
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] Third metric'
+approach:
+  heading: '[PLACEHOLDER] How implementation works'
+  intro: '[PLACEHOLDER] Short intro to the implementation steps.'
+  steps:
+    - title: '[PLACEHOLDER] Step 1 title'
+      description: '[PLACEHOLDER] One or two sentences describing step 1.'
+    - title: '[PLACEHOLDER] Step 2 title'
+      description: '[PLACEHOLDER] One or two sentences describing step 2.'
+    - title: '[PLACEHOLDER] Step 3 title'
+      description: '[PLACEHOLDER] One or two sentences describing step 3.'
+    - title: '[PLACEHOLDER] Step 4 title'
+      description: '[PLACEHOLDER] One or two sentences describing step 4.'
+programs:
+  heading: '[PLACEHOLDER] Programs'
+  intro: '[PLACEHOLDER] Intro to the featured programs.'
+  programs:
+    - drone-flight-autonomy
+caseStudies:
+  heading: '[PLACEHOLDER] Case studies'
+  intro: '[PLACEHOLDER] Intro to the case studies.'
+  caseStudies:
+    - example-isd-summer-program
+testimonial:
+  testimonial: jordan-example
+faq:
+  heading: '[PLACEHOLDER] Frequently asked questions'
+  faqs:
+    - example-question-one
+    - example-question-two
+cta:
+  heading: '[PLACEHOLDER] Call-to-action heading'
+  expectation: '[PLACEHOLDER] One line telling the visitor exactly what happens when they click.'
+  action:
+    label: '[PLACEHOLDER] Start planning'
+    href: /contact/
+  sourceTag: cte-stem-innovation-cta

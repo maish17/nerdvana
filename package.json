@@ -8,15 +8,21 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "format": "prettier --write \"**/*.{astro,ts,js,json,css,md}\""
+    "format": "prettier --write \"**/*.{astro,ts,tsx,js,mjs,json,css,md}\""
   },
   "dependencies": {
+    "@astrojs/netlify": "^8.2.9",
+    "@astrojs/react": "^7.0.1",
     "@astrojs/sitemap": "^3.7.4",
+    "@keystatic/astro": "^6.0.0",
+    "@keystatic/core": "^0.6.9",
+    "@markdoc/markdoc": "^0.4.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.3",
+    "astro": "^7.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "tailwindcss": "^4.3.3"
   },
   "allowScripts": {

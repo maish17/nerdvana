@@ -1,0 +1,6 @@
+question: '[PLACEHOLDER] Example question one?'
+answer: |
+  [PLACEHOLDER] Answer to question one, with **bold text** and a [placeholder link](/contact/).
+audience:
+  - district
+  - charter

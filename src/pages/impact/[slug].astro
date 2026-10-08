@@ -1,0 +1,138 @@
+---
+/** Case study template. One page per entry in src/content/case-studies/. */
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import Paragraphs from '../../components/Paragraphs.astro';
+import ProofStrip from '../../components/ProofStrip.astro';
+import Testimonial from '../../components/Testimonial.astro';
+import { getSingleton } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const caseStudies = await getCollection('caseStudies');
+  return caseStudies.map((caseStudy) => ({ params: { slug: caseStudy.id }, props: { caseStudy } }));
+}
+
+interface Props {
+  caseStudy: CollectionEntry<'caseStudies'>;
+}
+
+const { data } = Astro.props.caseStudy;
+const { detailLabels: l } = await getSingleton('impactHub');
+const number = new Intl.NumberFormat('en-US');
+
+const reach = [
+  data.reachStudents !== undefined && {
+    value: number.format(data.reachStudents),
+    label: l.reachStudents,
+  },
+  data.reachCampuses !== undefined && {
+    value: number.format(data.reachCampuses),
+    label: l.reachCampuses,
+  },
+].filter((x): x is { value: string; label: string } => Boolean(x));
+
+const narrative = [
+  { heading: l.challenge, text: data.challenge },
+  { heading: l.objectives, text: data.objectives },
+  { heading: l.deliveryModel, text: data.deliveryModel },
+  { heading: l.timeline, text: data.timeline },
+].filter((s) => s.text);
+
+const closing = [
+  { heading: l.lessons, text: data.lessons },
+  { heading: l.nextPhase, text: data.nextPhase },
+].filter((s) => s.text);
+---
+
+<BaseLayout title={data.title} description={`${data.partnerName}: ${data.title}`}>
+  <section aria-labelledby="case-title" class="py-2xl">
+    <div
+      class:list={[
+        'container-page grid items-center gap-xl',
+        data.heroImage.src && 'md:grid-cols-2',
+      ]}
+    >
+      <div>
+        <p class="font-semibold text-ink-muted">
+          {l.partner}: {data.partnerName}
+        </p>
+        <h1 id="case-title" class="mt-xs">
+          {data.title}
+        </h1>
+        {data.partnerContext && (
+          <div class="mt-md">
+            <Paragraphs text={data.partnerContext} />
+          </div>
+        )}
+      </div>
+      {data.heroImage.src && (
+        <img
+          src={data.heroImage.src}
+          alt={data.heroImage.alt}
+          width="1600"
+          height="900"
+          class="placeholder-media aspect-video rounded-md"
+          fetchpriority="high"
+          decoding="async"
+        />
+      )}
+    </div>
+  </section>
+
+  {reach.length > 0 && <ProofStrip heading={l.reach} items={reach} />}
+
+  {narrative.map((s) => (
+    <Section heading={s.heading}>
+      <Paragraphs text={s.text} />
+    </Section>
+  ))}
+
+  {data.outcomes.length > 0 && (
+    <Section heading={l.outcomes}>
+      <ul class="grid max-w-measure list-disc gap-2xs pl-lg">
+        {data.outcomes.map((o) => (
+          <li>{o}</li>
+        ))}
+      </ul>
+    </Section>
+  )}
+
+  {data.studentQuote && (
+    <section class="py-xl">
+      <figure class="container-page max-w-measure">
+        <blockquote class="border-l-4 border-ink pl-lg text-xl">
+          <p>{data.studentQuote}</p>
+        </blockquote>
+        <figcaption class="mt-md pl-lg">
+          {l.studentQuoteAttribution}, {data.partnerName}
+        </figcaption>
+      </figure>
+    </section>
+  )}
+
+  {data.leaderQuote.text && (
+    <Testimonial
+      quote={data.leaderQuote.text}
+      name={data.leaderQuote.name}
+      role={data.leaderQuote.role}
+      organization={data.leaderQuote.organization}
+    />
+  )}
+
+  {closing.map((s) => (
+    <Section heading={s.heading}>
+      <Paragraphs text={s.text} />
+    </Section>
+  ))}
+
+  {data.reportFile && (
+    <div class="container-page py-xl">
+      <a class="btn btn-secondary" href={data.reportFile} download>
+        {l.report}
+        <span class="sr-only">: {data.title}</span> (
+        {data.reportFile.split('.').pop()?.toUpperCase()})
+      </a>
+    </div>
+  )}
+</BaseLayout>

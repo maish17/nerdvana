@@ -1,0 +1,18 @@
+---
+/** Multi-line plain text from the CMS, split into paragraphs on blank lines. */
+import { paragraphs } from '../lib/content';
+
+interface Props {
+  text: string;
+}
+
+const items = paragraphs(Astro.props.text);
+---
+
+{items.length > 0 && (
+  <div class="prose-basic">
+    {items.map((p) => (
+      <p>{p}</p>
+    ))}
+  </div>
+)}

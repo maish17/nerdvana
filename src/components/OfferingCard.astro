@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { SiteLabels } from '../lib/types';
+
+interface Props {
+  offering: CollectionEntry<'offerings'>;
+  labels: SiteLabels;
+}
+
+const { offering, labels } = Astro.props;
+const { data } = offering;
+const statusLabel = {
+  open: labels.offeringStatusOpen,
+  waitlist: labels.offeringStatusWaitlist,
+  closed: labels.offeringStatusClosed,
+}[data.status];
+const actionLabel =
+  data.status === 'waitlist' ? labels.offeringJoinWaitlist : labels.offeringRegister;
+---
+
+<article class="card flex flex-col gap-sm">
+  <h3>{data.title}</h3>
+  <p>{data.description}</p>
+  <dl class="grid grid-cols-[auto_1fr] gap-x-md gap-y-2xs text-sm">
+    <dt class="font-semibold">{labels.offeringAgeRange}</dt>
+    <dd>{data.ageRange}</dd>
+    <dt class="font-semibold">{labels.offeringSchedule}</dt>
+    <dd>{data.schedule}</dd>
+    <dt class="font-semibold">{labels.offeringPrice}</dt>
+    <dd>{data.price}</dd>
+    <dt class="font-semibold">{labels.offeringStatus}</dt>
+    <dd>{statusLabel}</dd>
+  </dl>
+  {data.status !== 'closed' && (
+    <p>
+      <a class="btn btn-secondary" href={data.externalRegistrationUrl} rel="noopener">
+        {actionLabel}
+        <span class="sr-only">: {data.title}</span>
+      </a>
+    </p>
+  )}
+</article>

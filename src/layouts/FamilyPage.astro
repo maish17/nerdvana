@@ -1,0 +1,50 @@
+---
+/** Shared template for /families/parents/ and /families/homeschool/. Section order is fixed. */
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import RichText from '../components/RichText.astro';
+import OfferingCard from '../components/OfferingCard.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import Testimonial from '../components/Testimonial.astro';
+import ContextualCta from '../components/ContextualCta.astro';
+import { byTitle, getPublishableTestimonial, getSingleton, resolve } from '../lib/content';
+import type { FamilyPageData } from '../lib/types';
+
+interface Props {
+  data: FamilyPageData;
+}
+
+const { data } = Astro.props;
+const { labels } = await getSingleton('siteSettings');
+const offerings = (await getCollection('offerings')).sort(byTitle);
+const testimonial = await getPublishableTestimonial(data.testimonial.testimonial);
+const faqs = (await resolve(data.faq.faqs)).map((f) => ({
+  question: f.data.question,
+  answer: f.data.answer,
+}));
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <Hero {...data.hero} />
+  <Section heading={data.intro.heading}>
+    <RichText content={data.intro.body} />
+  </Section>
+  <Section heading={data.offerings.heading} intro={data.offerings.intro} muted>
+    {offerings.length > 0 ? (
+      <ul class="grid-cards" role="list">
+        {offerings.map((offering) => (
+          <li>
+            <OfferingCard offering={offering} labels={labels} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>{data.offerings.emptyMessage}</p>
+    )}
+  </Section>
+  <FaqAccordion heading={data.faq.heading} items={faqs} />
+  {testimonial && <Testimonial {...testimonial} />}
+  <ContextualCta {...data.cta} />
+</BaseLayout>

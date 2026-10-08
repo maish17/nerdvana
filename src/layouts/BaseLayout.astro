@@ -1,15 +1,18 @@
 ---
 import '../styles/global.css';
 import SEO from '../components/SEO.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { getSingleton } from '../lib/content';
 
 interface Props {
   title: string;
   description: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex } = Astro.props;
+const settings = await getSingleton('siteSettings');
 ---
 
 <!doctype html>
@@ -17,18 +20,42 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <SEO title={title} description={description} />
+    <SEO title={title} description={description} siteName={settings.siteName} noindex={noindex} />
+    <script is:inline>
+      // Attribution: remember UTM values and the external referrer from the
+      // landing page for this browser session, for the planning form.
+      (function () {
+        try {
+          var key = 'nv-attribution';
+          var data = JSON.parse(sessionStorage.getItem(key) || '{}');
+          var params = new URLSearchParams(location.search);
+          ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) {
+            if (params.get(k)) data[k] = params.get(k);
+          });
+          if (
+            !data.referrer &&
+            document.referrer &&
+            new URL(document.referrer).origin !== location.origin
+          ) {
+            data.referrer = document.referrer;
+          }
+          sessionStorage.setItem(key, JSON.stringify(data));
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body>
-    <a href="#main">Skip to content</a>
-    <Nav />
-    <main id="main">
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only-focusable btn btn-secondary absolute top-xs left-xs z-10 bg-surface"
+    >
+      {settings.labels.skipToContent}
+    </a>
+    <SiteHeader settings={settings} />
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
       <slot />
     </main>
-    <Footer />
+    <SiteFooter settings={settings} />
   </body>
 </html>

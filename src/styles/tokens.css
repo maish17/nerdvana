@@ -1,0 +1,52 @@
+/**
+ * DESIGN TOKENS — the single source of brand values.
+ *
+ * Neutral skeleton theme. Visual design is a separate, approved stage: replace
+ * values here, not in components. Tailwind reads these via `@theme inline` in
+ * global.css, so utilities like `bg-primary` or `p-md` always reflect them. Tokens use the
+ * `--nv-` prefix so they never collide with Tailwind's own theme variables.
+ *
+ * Rule: --color-primary is used ONLY for the primary button fill. Everything
+ * else stays grayscale until the visual design stage says otherwise.
+ */
+:root {
+  /* Color — grayscale + one brand primary */
+  --nv-color-primary: #a40084; /* 7.2:1 against white text */
+  --nv-color-on-primary: #ffffff;
+  --nv-color-ink: #111111; /* body text */
+  --nv-color-ink-muted: #4a4a4a; /* secondary text, 8.9:1 on white */
+  --nv-color-surface: #ffffff;
+  --nv-color-surface-muted: #f2f2f2;
+  --nv-color-border: #767676; /* 4.5:1 on white — passes for UI boundaries */
+  --nv-color-placeholder: #d9d9d9; /* image placeholders */
+  --nv-color-focus: #111111; /* focus ring; paired with a white offset ring */
+
+  /* Typography */
+  --nv-font-family-base:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --nv-font-size-sm: 0.875rem;
+  --nv-font-size-base: 1rem;
+  --nv-font-size-lg: 1.25rem;
+  --nv-font-size-xl: 1.5rem;
+  --nv-font-size-2xl: 2rem;
+  --nv-font-size-3xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+  --nv-line-height-tight: 1.2;
+  --nv-line-height-base: 1.6;
+
+  /* Spacing */
+  --nv-space-2xs: 0.25rem;
+  --nv-space-xs: 0.5rem;
+  --nv-space-sm: 0.75rem;
+  --nv-space-md: 1rem;
+  --nv-space-lg: 1.5rem;
+  --nv-space-xl: 2.5rem;
+  --nv-space-2xl: 4rem;
+
+  /* Radius */
+  --nv-radius-sm: 0.25rem;
+  --nv-radius-md: 0.5rem;
+
+  /* Layout */
+  --nv-measure: 70ch;
+  --nv-container: 72rem;
+}

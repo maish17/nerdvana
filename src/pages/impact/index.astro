@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ProofStrip from '../../components/ProofStrip.astro';
+import CaseStudyGrid from '../../components/CaseStudyGrid.astro';
+import Testimonial from '../../components/Testimonial.astro';
+import ContextualCta from '../../components/ContextualCta.astro';
+import { byTitle, getPublishableTestimonial, getSingleton } from '../../lib/content';
+
+const data = await getSingleton('impactHub');
+const caseStudies = (await getCollection('caseStudies')).sort(byTitle);
+const testimonial = await getPublishableTestimonial(data.testimonial.testimonial);
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <Hero {...data.hero} />
+  <ProofStrip {...data.proof} />
+  <CaseStudyGrid
+    heading={data.list.heading}
+    intro={data.list.intro}
+    caseStudies={caseStudies}
+    emptyMessage={data.list.emptyMessage}
+  />
+  {testimonial && <Testimonial {...testimonial} />}
+  <ContextualCta {...data.cta} />
+</BaseLayout>

@@ -1,0 +1,8 @@
+---
+import SolutionPage from '../../layouts/SolutionPage.astro';
+import { getSingleton } from '../../lib/content';
+
+const data = await getSingleton('preEts');
+---
+
+<SolutionPage data={data} />

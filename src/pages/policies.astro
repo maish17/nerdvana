@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import RichText from '../components/RichText.astro';
+import { formatDate, getSingleton } from '../lib/content';
+
+const data = await getSingleton('policies');
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <Hero {...data.hero} />
+  <p class="container-page text-sm text-ink-muted">
+    {data.lastUpdatedLabel}{' '}
+    <time datetime={data.lastUpdated.toISOString().slice(0, 10)}>
+      {formatDate(data.lastUpdated)}
+    </time>
+  </p>
+  <Section heading={data.privacy.heading}>
+    <RichText content={data.privacy.body} />
+  </Section>
+  <Section heading={data.accessibility.heading}>
+    <RichText content={data.accessibility.body} />
+  </Section>
+  <Section heading={data.other.heading}>
+    <RichText content={data.other.body} />
+  </Section>
+</BaseLayout>

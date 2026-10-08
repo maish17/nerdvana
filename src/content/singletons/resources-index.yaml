@@ -1,0 +1,25 @@
+seo:
+  title: '[PLACEHOLDER] Resources'
+  description: '[PLACEHOLDER] Search result description for the resources page.'
+hero:
+  eyebrow: '[PLACEHOLDER] Eyebrow'
+  heading: '[PLACEHOLDER] Resources heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction:
+    label: '[PLACEHOLDER] Plan a partnership'
+    href: /contact/
+  secondaryAction:
+    label: '[PLACEHOLDER] See programs'
+    href: /programs/
+  image: {}
+list:
+  heading: '[PLACEHOLDER] All resources'
+  intro: '[PLACEHOLDER] Intro to the resources list.'
+  emptyMessage: '[PLACEHOLDER] No resources yet.'
+cta:
+  heading: '[PLACEHOLDER] Call-to-action heading'
+  expectation: '[PLACEHOLDER] One line telling the visitor exactly what happens when they click.'
+  action:
+    label: '[PLACEHOLDER] Start planning'
+    href: /contact/
+  sourceTag: resources-cta

@@ -1,0 +1,38 @@
+---
+/**
+ * Free-form pages from src/content/pages/. Each page lives at /<slug>/.
+ * Fixed routes always win; a page whose slug is reserved fails the build.
+ */
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlockRenderer from '../components/BlockRenderer.astro';
+import { RESERVED_PAGE_SLUGS } from '../lib/content-options';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  for (const page of pages) {
+    if ((RESERVED_PAGE_SLUGS as readonly string[]).includes(page.id)) {
+      throw new Error(
+        `Free-form page slug "${page.id}" is reserved by a fixed page. Rename it in /keystatic.`,
+      );
+    }
+  }
+  return pages.map((page) => ({ params: { slug: page.id }, props: { page } }));
+}
+
+interface Props {
+  page: CollectionEntry<'pages'>;
+}
+
+const { data } = Astro.props.page;
+const heroFirst = data.blocks[0]?.discriminant === 'hero';
+---
+
+<BaseLayout title={data.seoTitle} description={data.seoDescription}>
+  {!heroFirst && (
+    <div class="container-page pt-2xl">
+      <h1>{data.title}</h1>
+    </div>
+  )}
+  <BlockRenderer blocks={data.blocks} />
+</BaseLayout>

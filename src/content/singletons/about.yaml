@@ -1,0 +1,54 @@
+seo:
+  title: '[PLACEHOLDER] About'
+  description: '[PLACEHOLDER] Search result description for the about page.'
+hero:
+  eyebrow: '[PLACEHOLDER] Eyebrow'
+  heading: '[PLACEHOLDER] About heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction:
+    label: '[PLACEHOLDER] Plan a partnership'
+    href: /contact/
+  secondaryAction:
+    label: '[PLACEHOLDER] See programs'
+    href: /programs/
+  image:
+    src: /images/singletons/about/hero.svg
+    alt: '[PLACEHOLDER] Description of the about hero image'
+story:
+  heading: '[PLACEHOLDER] Story heading'
+  body: |
+    [PLACEHOLDER] Story paragraph with **bold text** and a [placeholder link](/about/).
+
+    ### [PLACEHOLDER] Subheading
+
+    - [PLACEHOLDER] List item one
+    - [PLACEHOLDER] List item two
+    - [PLACEHOLDER] List item three
+proof:
+  heading: '[PLACEHOLDER] By the numbers'
+  items:
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] First metric'
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] Second metric'
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] Third metric'
+gallery:
+  heading: '[PLACEHOLDER] Gallery'
+  images:
+    - image: /images/singletons/about/gallery/gallery-1.svg
+      alt: '[PLACEHOLDER] Description of gallery image 1'
+      caption: '[PLACEHOLDER] Caption 1'
+    - image: /images/singletons/about/gallery/gallery-2.svg
+      alt: '[PLACEHOLDER] Description of gallery image 2'
+      caption: '[PLACEHOLDER] Caption 2'
+    - image: /images/singletons/about/gallery/gallery-3.svg
+      alt: '[PLACEHOLDER] Description of gallery image 3'
+      caption: '[PLACEHOLDER] Caption 3'
+cta:
+  heading: '[PLACEHOLDER] Call-to-action heading'
+  expectation: '[PLACEHOLDER] One line telling the visitor exactly what happens when they click.'
+  action:
+    label: '[PLACEHOLDER] Start planning'
+    href: /contact/
+  sourceTag: about-cta

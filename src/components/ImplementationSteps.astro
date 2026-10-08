@@ -1,0 +1,30 @@
+---
+import Section from './Section.astro';
+
+interface Props {
+  heading: string;
+  intro?: string;
+  steps: { title: string; description?: string }[];
+}
+
+const { heading, intro, steps } = Astro.props;
+---
+
+<Section heading={heading} intro={intro}>
+  <ol class="grid gap-lg">
+    {steps.map((step, i) => (
+      <li class="grid grid-cols-[auto_1fr] gap-md">
+        <span
+          class="flex size-10 items-center justify-center rounded-full border-2 border-ink font-bold"
+          aria-hidden="true"
+        >
+          {i + 1}
+        </span>
+        <div>
+          <h3>{step.title}</h3>
+          {step.description && <p class="mt-2xs max-w-measure">{step.description}</p>}
+        </div>
+      </li>
+    ))}
+  </ol>
+</Section>

@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  caseStudy: CollectionEntry<'caseStudies'>;
+}
+
+const { id, data } = Astro.props.caseStudy;
+---
+
+<article class="card flex flex-col gap-sm">
+  {data.heroImage.src && (
+    <img
+      src={data.heroImage.src}
+      alt=""
+      width="1600"
+      height="900"
+      class="placeholder-media aspect-video rounded-sm"
+      loading="lazy"
+      decoding="async"
+    />
+  )}
+  <h3>
+    <a href={`/impact/${id}/`}>{data.title}</a>
+  </h3>
+  <p class="text-sm font-semibold text-ink-muted">{data.partnerName}</p>
+</article>

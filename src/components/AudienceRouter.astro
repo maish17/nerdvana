@@ -1,0 +1,35 @@
+---
+/**
+ * Audience router: 3 to 6 cards, each with a descriptive label.
+ * Never "Learn more" — enforced here as well as in both schemas.
+ */
+import Section from './Section.astro';
+import { VAGUE_LABEL_PATTERN } from '../lib/content-options';
+
+interface Props {
+  heading: string;
+  intro?: string;
+  cards: { label: string; description?: string; href: string }[];
+}
+
+const { heading, intro, cards } = Astro.props;
+
+if (cards.length < 3 || cards.length > 6) {
+  throw new Error(`Audience router "${heading}" needs 3 to 6 cards; it has ${cards.length}.`);
+}
+const vague = cards.find((c) => VAGUE_LABEL_PATTERN.test(c.label));
+if (vague) throw new Error(`Audience router card label "${vague.label}" is not descriptive.`);
+---
+
+<Section heading={heading} intro={intro}>
+  <ul class="grid-cards" role="list">
+    {cards.map((card) => (
+      <li class="card">
+        <h3>
+          <a href={card.href}>{card.label}</a>
+        </h3>
+        {card.description && <p class="mt-xs text-ink-muted">{card.description}</p>}
+      </li>
+    ))}
+  </ul>
+</Section>
