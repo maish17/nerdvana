@@ -1,0 +1,29 @@
+---
+import { uid } from '../lib/ids';
+
+interface Props {
+  heading?: string;
+  items: { value: string; label: string }[];
+}
+
+const { heading, items } = Astro.props;
+const id = uid('proof');
+---
+
+<section aria-labelledby={heading ? id : undefined} class="bg-surface-muted py-xl">
+  <div class="container-page">
+    {heading && (
+      <h2 id={id} class="mb-lg">
+        {heading}
+      </h2>
+    )}
+    <dl class="grid grid-cols-[repeat(auto-fit,minmax(min(10rem,100%),1fr))] gap-lg">
+      {items.map((item) => (
+        <div class="flex flex-col-reverse">
+          <dt class="text-sm text-ink-muted">{item.label}</dt>
+          <dd class="text-2xl font-bold">{item.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

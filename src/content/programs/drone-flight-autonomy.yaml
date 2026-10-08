@@ -1,0 +1,47 @@
+title: '[PLACEHOLDER] Drone Flight & Autonomy'
+summary: >-
+  [PLACEHOLDER] Two-sentence summary of the program for cards and search
+  results. Long enough to show realistic wrapping.
+audience:
+  - district
+  - charter
+gradeRange: '[PLACEHOLDER] Grades 6–8'
+format:
+  - weekly
+  - summer
+duration: '[PLACEHOLDER] 12 weeks'
+whatStudentsDo: >
+  [PLACEHOLDER] What students do paragraph with **bold text** and a [placeholder
+  link](/about/).
+
+
+  ### [PLACEHOLDER] Subheading
+
+
+  - [PLACEHOLDER] List item one
+
+  - [PLACEHOLDER] List item two
+
+  - [PLACEHOLDER] List item three
+outcomes:
+  - '[PLACEHOLDER] Outcome 1'
+  - '[PLACEHOLDER] Outcome 2'
+  - '[PLACEHOLDER] Outcome 3'
+  - '[PLACEHOLDER] Outcome 4'
+includes:
+  - '[PLACEHOLDER] Included item 1'
+  - '[PLACEHOLDER] Included item 2'
+  - '[PLACEHOLDER] Included item 3'
+partnerRequirements:
+  - '[PLACEHOLDER] Partner requirement 1'
+  - '[PLACEHOLDER] Partner requirement 2'
+relatedCaseStudies:
+  - example-isd-summer-program
+relatedFaqs:
+  - example-question-one
+  - example-question-two
+heroImage:
+  src: /images/programs/drone-flight-autonomy/heroImage/src.svg
+  alt: '[PLACEHOLDER] Description of the program hero image'
+ctaLabel: '[PLACEHOLDER] Plan this program'
+ctaHref: /contact/

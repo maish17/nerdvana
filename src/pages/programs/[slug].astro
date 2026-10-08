@@ -1,0 +1,104 @@
+---
+/** Program detail template. One page per entry in src/content/programs/. */
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import RichText from '../../components/RichText.astro';
+import CaseStudyGrid from '../../components/CaseStudyGrid.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import { getSingleton, resolve } from '../../lib/content';
+import { AUDIENCE_OPTIONS, PROGRAM_FORMAT_OPTIONS } from '../../lib/content-options';
+
+export async function getStaticPaths() {
+  const programs = await getCollection('programs');
+  return programs.map((program) => ({ params: { slug: program.id }, props: { program } }));
+}
+
+interface Props {
+  program: CollectionEntry<'programs'>;
+}
+
+const { data } = Astro.props.program;
+const { detailLabels: l } = await getSingleton('programsOverview');
+const caseStudies = await resolve(data.relatedCaseStudies);
+const faqs = (await resolve(data.relatedFaqs)).map((f) => ({
+  question: f.data.question,
+  answer: f.data.answer,
+}));
+const label = (options: readonly { value: string; label: string }[], values: string[]) =>
+  values.map((v) => options.find((o) => o.value === v)?.label ?? v).join(', ');
+
+const meta = [
+  { term: l.audience, value: label(AUDIENCE_OPTIONS, data.audience) },
+  { term: l.gradeRange, value: data.gradeRange },
+  { term: l.format, value: label(PROGRAM_FORMAT_OPTIONS, data.format) },
+  { term: l.duration, value: data.duration },
+].filter((m) => m.value);
+
+const lists = [
+  { heading: l.outcomes, items: data.outcomes },
+  { heading: l.includes, items: data.includes },
+  { heading: l.partnerRequirements, items: data.partnerRequirements },
+].filter((list) => list.items.length > 0);
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <section aria-labelledby="program-title" class="py-2xl">
+    <div
+      class:list={[
+        'container-page grid items-center gap-xl',
+        data.heroImage.src && 'md:grid-cols-2',
+      ]}
+    >
+      <div>
+        <h1 id="program-title">{data.title}</h1>
+        <p class="mt-md max-w-measure text-lg">{data.summary}</p>
+        <dl class="mt-lg grid grid-cols-[auto_1fr] gap-x-md gap-y-2xs">
+          {meta.map((m) => (
+            <>
+              <dt class="font-semibold">{m.term}</dt>
+              <dd>{m.value}</dd>
+            </>
+          ))}
+        </dl>
+        <a
+          class="btn btn-primary mt-lg"
+          href={data.ctaHref}
+          data-cta-source={`program-${Astro.params.slug}`}
+        >
+          {data.ctaLabel}
+        </a>
+      </div>
+      {data.heroImage.src && (
+        <img
+          src={data.heroImage.src}
+          alt={data.heroImage.alt}
+          width="1600"
+          height="900"
+          class="placeholder-media aspect-video rounded-md"
+          fetchpriority="high"
+          decoding="async"
+        />
+      )}
+    </div>
+  </section>
+
+  {data.whatStudentsDo && (
+    <Section heading={l.whatStudentsDo}>
+      <RichText content={data.whatStudentsDo} />
+    </Section>
+  )}
+
+  {lists.map((list) => (
+    <Section heading={list.heading}>
+      <ul class="grid max-w-measure list-disc gap-2xs pl-lg">
+        {list.items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </Section>
+  ))}
+
+  <CaseStudyGrid heading={l.relatedCaseStudies} caseStudies={caseStudies} />
+  <FaqAccordion heading={l.relatedFaqs} items={faqs} />
+</BaseLayout>

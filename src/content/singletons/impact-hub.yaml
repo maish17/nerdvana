@@ -1,0 +1,52 @@
+seo:
+  title: '[PLACEHOLDER] Impact'
+  description: '[PLACEHOLDER] Search result description for the impact page.'
+hero:
+  eyebrow: '[PLACEHOLDER] Eyebrow'
+  heading: '[PLACEHOLDER] Impact hub heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction:
+    label: '[PLACEHOLDER] Plan a partnership'
+    href: /contact/
+  secondaryAction:
+    label: '[PLACEHOLDER] See programs'
+    href: /programs/
+  image:
+    src: /images/singletons/impact-hub/hero.svg
+    alt: '[PLACEHOLDER] Description of the impact hub hero image'
+proof:
+  heading: '[PLACEHOLDER] By the numbers'
+  items:
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] First metric'
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] Second metric'
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] Third metric'
+list:
+  heading: '[PLACEHOLDER] All case studies'
+  intro: '[PLACEHOLDER] Intro to the case studies list.'
+  emptyMessage: '[PLACEHOLDER] No case studies yet.'
+testimonial:
+  testimonial: jordan-example
+cta:
+  heading: '[PLACEHOLDER] Call-to-action heading'
+  expectation: '[PLACEHOLDER] One line telling the visitor exactly what happens when they click.'
+  action:
+    label: '[PLACEHOLDER] Start planning'
+    href: /contact/
+  sourceTag: impact-cta
+detailLabels:
+  partner: '[PLACEHOLDER] Partner'
+  reach: '[PLACEHOLDER] Reach'
+  reachStudents: '[PLACEHOLDER] Students reached'
+  reachCampuses: '[PLACEHOLDER] Campuses reached'
+  challenge: '[PLACEHOLDER] The challenge'
+  objectives: '[PLACEHOLDER] Objectives'
+  deliveryModel: '[PLACEHOLDER] Delivery model'
+  timeline: '[PLACEHOLDER] Timeline'
+  outcomes: '[PLACEHOLDER] Outcomes'
+  studentQuoteAttribution: '[PLACEHOLDER] Student'
+  lessons: '[PLACEHOLDER] Lessons learned'
+  nextPhase: '[PLACEHOLDER] Next phase'
+  report: '[PLACEHOLDER] Download the full report'

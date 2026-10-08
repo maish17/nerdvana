@@ -1,0 +1,41 @@
+seo:
+  title: '[PLACEHOLDER] Policies'
+  description: '[PLACEHOLDER] Search result description for the policies page.'
+hero:
+  heading: '[PLACEHOLDER] Policies heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction: {}
+  secondaryAction: {}
+  image: {}
+lastUpdated: '2026-01-01'
+lastUpdatedLabel: '[PLACEHOLDER] Last updated'
+privacy:
+  heading: '[PLACEHOLDER] Privacy heading'
+  body: |
+    [PLACEHOLDER] Privacy paragraph with **bold text** and a [placeholder link](/about/).
+
+    ### [PLACEHOLDER] Subheading
+
+    - [PLACEHOLDER] List item one
+    - [PLACEHOLDER] List item two
+    - [PLACEHOLDER] List item three
+accessibility:
+  heading: '[PLACEHOLDER] Accessibility heading'
+  body: |
+    [PLACEHOLDER] Accessibility paragraph with **bold text** and a [placeholder link](/about/).
+
+    ### [PLACEHOLDER] Subheading
+
+    - [PLACEHOLDER] List item one
+    - [PLACEHOLDER] List item two
+    - [PLACEHOLDER] List item three
+other:
+  heading: '[PLACEHOLDER] Other policies heading'
+  body: |
+    [PLACEHOLDER] Other policies paragraph with **bold text** and a [placeholder link](/about/).
+
+    ### [PLACEHOLDER] Subheading
+
+    - [PLACEHOLDER] List item one
+    - [PLACEHOLDER] List item two
+    - [PLACEHOLDER] List item three

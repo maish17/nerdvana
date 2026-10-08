@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { RESOURCE_TYPE_OPTIONS } from '../lib/content-options';
+import { formatDate } from '../lib/content';
+
+interface Props {
+  resource: CollectionEntry<'resources'>;
+  labels: { resourceDownload: string; resourceUpdated: string };
+}
+
+const { resource, labels } = Astro.props;
+const { data } = resource;
+const typeLabel = RESOURCE_TYPE_OPTIONS.find((o) => o.value === data.resourceType)?.label;
+const extension = data.file.split('.').pop()?.toUpperCase();
+---
+
+<article class="card flex flex-col gap-sm">
+  <p class="text-sm font-semibold text-ink-muted">{typeLabel}</p>
+  <h3>{data.title}</h3>
+  <p>{data.description}</p>
+  <p class="text-sm text-ink-muted">
+    {labels.resourceUpdated}{' '}
+    <time datetime={data.lastUpdated.toISOString().slice(0, 10)}>
+      {formatDate(data.lastUpdated)}
+    </time>
+  </p>
+  <p>
+    <a href={data.file} download>
+      {labels.resourceDownload}
+      <span class="sr-only">: {data.title}</span>
+      {extension && ` (${extension})`}
+    </a>
+  </p>
+</article>

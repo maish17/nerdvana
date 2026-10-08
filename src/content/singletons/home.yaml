@@ -1,0 +1,77 @@
+seo:
+  title: '[PLACEHOLDER] Home'
+  description: '[PLACEHOLDER] Search result description for the home page.'
+hero:
+  eyebrow: '[PLACEHOLDER] Eyebrow'
+  heading: '[PLACEHOLDER] Home heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction:
+    label: '[PLACEHOLDER] Plan a partnership'
+    href: /contact/
+  secondaryAction:
+    label: '[PLACEHOLDER] See programs'
+    href: /programs/
+  image:
+    src: /images/singletons/home/hero.svg
+    alt: '[PLACEHOLDER] Description of the home hero image'
+proof:
+  heading: '[PLACEHOLDER] By the numbers'
+  items:
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] First metric'
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] Second metric'
+    - value: '[PLACEHOLDER] 00'
+      label: '[PLACEHOLDER] Third metric'
+audienceRouter:
+  heading: '[PLACEHOLDER] Who we work with'
+  intro: '[PLACEHOLDER] Short intro routing each audience to its page.'
+  cards:
+    - label: '[PLACEHOLDER] Districts'
+      description: '[PLACEHOLDER] One line for districts.'
+      href: /solutions/district-partnerships/
+    - label: '[PLACEHOLDER] Charter networks'
+      description: '[PLACEHOLDER] One line for charter networks.'
+      href: /solutions/charter-networks/
+    - label: '[PLACEHOLDER] Independent schools'
+      description: '[PLACEHOLDER] One line for independent schools.'
+      href: /solutions/independent-schools/
+    - label: '[PLACEHOLDER] Families'
+      description: '[PLACEHOLDER] One line for families.'
+      href: /families/parents/
+steps:
+  heading: '[PLACEHOLDER] How implementation works'
+  intro: '[PLACEHOLDER] Short intro to the implementation steps.'
+  steps:
+    - title: '[PLACEHOLDER] Step 1 title'
+      description: '[PLACEHOLDER] One or two sentences describing step 1.'
+    - title: '[PLACEHOLDER] Step 2 title'
+      description: '[PLACEHOLDER] One or two sentences describing step 2.'
+    - title: '[PLACEHOLDER] Step 3 title'
+      description: '[PLACEHOLDER] One or two sentences describing step 3.'
+    - title: '[PLACEHOLDER] Step 4 title'
+      description: '[PLACEHOLDER] One or two sentences describing step 4.'
+programs:
+  heading: '[PLACEHOLDER] Featured programs'
+  intro: '[PLACEHOLDER] Intro to the featured programs.'
+  programs:
+    - drone-flight-autonomy
+caseStudies:
+  heading: '[PLACEHOLDER] Featured case studies'
+  intro: '[PLACEHOLDER] Intro to the case studies.'
+  caseStudies:
+    - example-isd-summer-program
+testimonial:
+  testimonial: jordan-example
+faq:
+  heading: '[PLACEHOLDER] Frequently asked questions'
+  faqs:
+    - example-question-one
+    - example-question-two
+cta:
+  heading: '[PLACEHOLDER] Call-to-action heading'
+  expectation: '[PLACEHOLDER] One line telling the visitor exactly what happens when they click.'
+  action:
+    label: '[PLACEHOLDER] Start planning'
+    href: /contact/
+  sourceTag: home-cta

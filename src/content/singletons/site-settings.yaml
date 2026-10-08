@@ -1,0 +1,60 @@
+siteName: Nerdvana
+primaryNav:
+  - label: '[PLACEHOLDER] Solutions'
+    href: /solutions/
+  - label: '[PLACEHOLDER] Programs'
+    href: /programs/
+  - label: '[PLACEHOLDER] Impact'
+    href: /impact/
+  - label: '[PLACEHOLDER] Resources'
+    href: /resources/
+  - label: '[PLACEHOLDER] Families'
+    href: /families/parents/
+  - label: '[PLACEHOLDER] About'
+    href: /about/
+headerAction:
+  label: '[PLACEHOLDER] Plan a partnership'
+  href: /contact/
+footerNav:
+  - label: '[PLACEHOLDER] Contact'
+    href: /contact/
+  - label: '[PLACEHOLDER] Policies'
+    href: /policies/
+  - label: '[PLACEHOLDER] Homeschool'
+    href: /families/homeschool/
+  - label: '[PLACEHOLDER] Pre-ETS'
+    href: /workforce/pre-ets/
+contact:
+  email: placeholder@example.com
+  phone: +1 000-000-0000
+  street: '[PLACEHOLDER] Street address'
+  city: Edinburg
+  region: TX
+  postalCode: '[PLACEHOLDER] ZIP'
+social:
+  - platform: linkedin
+    url: https://example.com/linkedin
+  - platform: instagram
+    url: https://example.com/instagram
+footerNote: '[PLACEHOLDER] Legal entity name'
+labels:
+  skipToContent: '[PLACEHOLDER] Skip to main content'
+  primaryNavLabel: '[PLACEHOLDER] Main'
+  footerNavLabel: '[PLACEHOLDER] Footer'
+  socialNavLabel: '[PLACEHOLDER] Social media'
+  contactHeading: '[PLACEHOLDER] Contact'
+  offeringAgeRange: '[PLACEHOLDER] Ages'
+  offeringSchedule: '[PLACEHOLDER] Schedule'
+  offeringPrice: '[PLACEHOLDER] Price'
+  offeringStatus: '[PLACEHOLDER] Status'
+  offeringStatusOpen: '[PLACEHOLDER] Open for enrollment'
+  offeringStatusWaitlist: '[PLACEHOLDER] Waitlist only'
+  offeringStatusClosed: '[PLACEHOLDER] Closed'
+  offeringRegister: '[PLACEHOLDER] Register'
+  offeringJoinWaitlist: '[PLACEHOLDER] Join the waitlist'
+  resourceDownload: '[PLACEHOLDER] Download'
+  resourceUpdated: '[PLACEHOLDER] Last updated'
+  opensInNewTab: '[PLACEHOLDER] opens in a new tab'
+  notFoundTitle: '[PLACEHOLDER] Page not found'
+  notFoundBody: '[PLACEHOLDER] The page you were looking for does not exist.'
+  notFoundLink: '[PLACEHOLDER] Go to the home page'

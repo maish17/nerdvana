@@ -1,21 +1,30 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import AudienceRouter from '../../components/AudienceRouter.astro';
+import ImplementationSteps from '../../components/ImplementationSteps.astro';
+import CaseStudyGrid from '../../components/CaseStudyGrid.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import ContextualCta from '../../components/ContextualCta.astro';
+import { getSingleton, resolve } from '../../lib/content';
 
-const entries = (await getCollection('solutions', ({ data }) => !data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+const data = await getSingleton('solutionsOverview');
+const caseStudies = await resolve(data.caseStudies.caseStudies);
+const faqs = (await resolve(data.faq.faqs)).map((f) => ({
+  question: f.data.question,
+  answer: f.data.answer,
+}));
 ---
 
-<BaseLayout title="PLACEHOLDER_SOLUTIONS_TITLE" description="PLACEHOLDER_SOLUTIONS_DESCRIPTION">
-  <h1>PLACEHOLDER_SOLUTIONS_HEADING</h1>
-  <ul>
-    {entries.map((entry) => (
-      <li>
-        <a href={`/solutions/${entry.id}/`}>
-          <h2>{entry.data.title}</h2>
-          <p>{entry.data.tagline}</p>
-        </a>
-      </li>
-    ))}
-  </ul>
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <Hero {...data.hero} />
+  <AudienceRouter {...data.audienceRouter} />
+  <ImplementationSteps {...data.steps} />
+  <CaseStudyGrid
+    heading={data.caseStudies.heading}
+    intro={data.caseStudies.intro}
+    caseStudies={caseStudies}
+  />
+  <FaqAccordion heading={data.faq.heading} items={faqs} />
+  <ContextualCta {...data.cta} />
 </BaseLayout>

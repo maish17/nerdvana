@@ -1,8 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import RichText from '../components/RichText.astro';
+import ProofStrip from '../components/ProofStrip.astro';
+import MediaGallery from '../components/MediaGallery.astro';
+import ContextualCta from '../components/ContextualCta.astro';
+import { getSingleton } from '../lib/content';
+
+const data = await getSingleton('about');
 ---
 
-<BaseLayout title="PLACEHOLDER_ABOUT_TITLE" description="PLACEHOLDER_ABOUT_DESCRIPTION">
-  <h1>PLACEHOLDER_ABOUT_HEADING</h1>
-  <!-- TODO: about page content pending design + copy. -->
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <Hero {...data.hero} />
+  <Section heading={data.story.heading}>
+    <RichText content={data.story.body} />
+  </Section>
+  <ProofStrip {...data.proof} />
+  <MediaGallery
+    heading={data.gallery.heading}
+    images={data.gallery.images.map((i) => ({ src: i.image, alt: i.alt, caption: i.caption }))}
+  />
+  <ContextualCta {...data.cta} />
 </BaseLayout>

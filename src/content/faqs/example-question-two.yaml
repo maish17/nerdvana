@@ -1,0 +1,9 @@
+question: '[PLACEHOLDER] Example question two?'
+answer: |
+  [PLACEHOLDER] Answer to question two.
+
+  - [PLACEHOLDER] Point one
+  - [PLACEHOLDER] Point two
+audience:
+  - parent
+  - homeschool

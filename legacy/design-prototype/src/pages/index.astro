@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import park from '../assets/park.png';
+---
+
+<BaseLayout title="Nerdvana | Hands-on STEM Experiences" description="Learn, play, work, and innovate through hands-on STEM experiences with Nerdvana.">
+  <section class="hero" aria-labelledby="hero-title" data-reveal="hero">
+    <div class="hero__image"></div>
+    <div class="hero__shade"></div>
+    <div class="hero__content">
+      <img src="/hero-detail.png?v=20260924" alt="NERDVANA" width="1979" height="499" class="hero__logo" />
+      <h1 id="hero-title">NERDVANA</h1>
+      <p>Learn <span>•</span> Play <span>•</span> Work <span>•</span> Innovate</p>
+    </div>
+  </section>
+
+  <section class="intro" aria-labelledby="intro-title" data-reveal>
+    <div class="intro__card" data-reveal="card">
+      <p class="eyebrow">Reach your NERDVANA</p>
+      <h2 id="intro-title">Hands on STEM Experiences</h2>
+      <div class="rule"></div>
+      <p class="intro__copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu ante eros. Vestibulum imperdiet enim eu libero fringilla euismod. Nullam eleifend suscipit vulputate. Fusce ornare nisi risus, in euismod mi suscipit ac. Sed molestie lectus. Vivamus maximus, turpis in ullamcorper dapibus, ipsum neque porttitor urna, et tincidunt leo risus quis odio. Praesent volutpat posuere dignissim. Pellentesque pretium, mauris et consectetur aliquam, metus felis ultricies ligula, facilisis viverra sapien urna et turpis. Vivamus in erat ipsum placerat viverra.</p>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Nerdvana statistics" data-reveal>
+    <div data-reveal="stat"><span class="stat__dot"></span><strong>???+</strong><small>Projects Done</small></div>
+    <div data-reveal="stat"><span class="stat__dot"></span><strong>???+</strong><small>Satisfied Clients</small></div>
+    <div data-reveal="stat"><span class="stat__dot"></span><strong>???+</strong><small>Years Experience</small></div>
+  </section>
+
+  <section class="testimonial" aria-label="Testimonial" data-reveal>
+    <button class="testimonial__previous" aria-label="Previous testimonial">‹</button>
+    <div class="testimonial__portrait"></div>
+    <article class="testimonial__card">
+      <span class="quote">“</span>
+      <p>Asdasdasdasdasdfasdfasfasf</p>
+      <div class="stars">★★★★★</div>
+      <strong>Mr awesomness</strong>
+    </article>
+    <button class="testimonial__next" aria-label="Next testimonial">›</button>
+  </section>
+
+  <section class="projects" aria-label="Featured projects" data-reveal>
+    <button class="carousel-button carousel-button--left" aria-label="Previous project">‹</button>
+    <div class="project project--left" data-project-slot="0"><img src="/border-tour.png" alt="People riding horses on a Border Tour" /><div><strong>Border Tour</strong></div></div>
+    <div class="project project--center" data-project-slot="1"><img src="/disco.png" alt="Colorful sculpture at El Disco Super Center" /><div><strong>El Disco Super Center</strong><small>132 My Street Avenue</small></div></div>
+    <div class="project project--right" data-project-slot="2"><Image src={park} alt="Playground at Progreso City Park" loading="eager" decoding="sync" /><div><strong>Progreso City Park</strong></div></div>
+    <button class="carousel-button carousel-button--right" type="button" aria-label="Next project">›</button>
+    <div class="carousel-dots" aria-label="Choose a project" role="tablist">
+      <button type="button" aria-label="Show Border Tour" class="active" aria-selected="true"></button>
+      <button type="button" aria-label="Show El Disco Super Center" aria-selected="false"></button>
+      <button type="button" aria-label="Show Progreso City Park" aria-selected="false"></button>
+      <button type="button" aria-label="Show temporary project 4" aria-selected="false"></button>
+      <button type="button" aria-label="Show temporary project 5" aria-selected="false"></button>
+    </div>
+  </section>
+
+  <section class="awards" data-reveal><h2>Award winning clients</h2></section>
+</BaseLayout>
+
+<script>
+  type Project = { image: string; alt: string; title: string; detail?: string };
+
+  const projects: Project[] = [
+    { image: '/border-tour.png', alt: 'People riding horses on a Border Tour', title: 'Border Tour' },
+    { image: '/disco.png', alt: 'Colorful sculpture at El Disco Super Center', title: 'El Disco Super Center', detail: '132 My Street Avenue' },
+    { image: '/park.png', alt: 'Playground at Progreso City Park', title: 'Progreso City Park' },
+    { image: '/hero.png', alt: 'Temporary featured project photo', title: 'Temporary Project 4' },
+    { image: '/hero-overlay.png', alt: 'Temporary featured project photo', title: 'Temporary Project 5' },
+  ];
+
+  const carousel = document.querySelector<HTMLElement>('.projects');
+  if (!carousel) throw new Error('Featured projects carousel was not found.');
+
+  const cards = [...carousel.querySelectorAll<HTMLElement>('[data-project-slot]')];
+  const dots = [...carousel.querySelectorAll<HTMLButtonElement>('.carousel-dots button')];
+  const revealItems = [...document.querySelectorAll<HTMLElement>('[data-reveal]')];
+  const previous = carousel.querySelector<HTMLButtonElement>('.carousel-button--left');
+  const next = carousel.querySelector<HTMLButtonElement>('.carousel-button--right');
+  let activeIndex = 0;
+
+  const renderProject = (card: HTMLElement, project: Project) => {
+    const image = card.querySelector<HTMLImageElement>('img');
+    const title = card.querySelector<HTMLElement>('strong');
+    const detail = card.querySelector('small');
+
+    if (!image || !title) return;
+
+    image.src = project.image;
+    image.alt = project.alt;
+    title.textContent = project.title;
+    if (project.detail) {
+      if (detail) detail.textContent = project.detail;
+      else card.querySelector('div')?.insertAdjacentHTML('beforeend', `<small>${project.detail}</small>`);
+    } else if (detail) {
+      detail.remove();
+    }
+  };
+
+  const renderCarousel = (direction = 'forward') => {
+    carousel.dataset.direction = direction;
+    carousel.classList.remove('is-changing');
+    void carousel.offsetWidth;
+    cards.forEach((card, slot) => renderProject(card, projects[(activeIndex + slot) % projects.length]));
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === activeIndex);
+      dot.setAttribute('aria-selected', String(index === activeIndex));
+    });
+    carousel.classList.add('is-changing');
+  };
+
+  previous?.addEventListener('click', () => {
+    activeIndex = (activeIndex - 1 + projects.length) % projects.length;
+    renderCarousel('backward');
+  });
+
+  next?.addEventListener('click', () => {
+    activeIndex = (activeIndex + 1) % projects.length;
+    renderCarousel('forward');
+  });
+
+  dots.forEach((dot, index) => dot.addEventListener('click', () => {
+    const direction = index < activeIndex ? 'backward' : 'forward';
+    activeIndex = index;
+    renderCarousel(direction);
+  }));
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.18 });
+
+  revealItems.forEach((item) => revealObserver.observe(item));
+</script>

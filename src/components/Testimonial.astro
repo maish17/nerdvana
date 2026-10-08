@@ -1,0 +1,30 @@
+---
+/**
+ * Testimonial. Name, role and organization are all required —
+ * no anonymous quotes. Missing attribution fails the build.
+ */
+interface Props {
+  quote: string;
+  name: string;
+  role: string;
+  organization: string;
+}
+
+const { quote, name, role, organization } = Astro.props;
+
+for (const [key, value] of Object.entries({ quote, name, role, organization })) {
+  if (!value?.trim())
+    throw new Error(`Testimonial is missing "${key}". Anonymous quotes are not allowed.`);
+}
+---
+
+<section class="py-2xl">
+  <figure class="container-page max-w-measure">
+    <blockquote class="border-l-4 border-ink pl-lg text-xl">
+      <p>{quote}</p>
+    </blockquote>
+    <figcaption class="mt-md pl-lg">
+      <span class="font-semibold">{name}</span>, {role}, {organization}
+    </figcaption>
+  </figure>
+</section>

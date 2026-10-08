@@ -1,0 +1,27 @@
+---
+/**
+ * Contextual CTA: a heading, one line saying what happens next, and exactly
+ * one action. `sourceTag` is exposed as data-cta-source for analytics.
+ */
+import { uid } from '../lib/ids';
+
+interface Props {
+  heading: string;
+  expectation: string;
+  action: { label: string; href: string };
+  sourceTag: string;
+}
+
+const { heading, expectation, action, sourceTag } = Astro.props;
+const id = uid('cta');
+---
+
+<section aria-labelledby={id} class="bg-surface-muted py-2xl" data-cta-source={sourceTag}>
+  <div class="container-page">
+    <h2 id={id}>{heading}</h2>
+    <p class="mt-sm max-w-measure">{expectation}</p>
+    <a class="btn btn-primary mt-lg" href={action.href} data-cta-source={sourceTag}>
+      {action.label}
+    </a>
+  </div>
+</section>

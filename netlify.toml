@@ -1,0 +1,12 @@
+# Netlify build settings. The @astrojs/netlify adapter adds function config
+# automatically at build time; nothing else needs to live here.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Node 22 LTS (Astro 7 requires >= 22.12.0). Netlify installs the latest
+  # 22.x, so security patches arrive without a config change. Keep in sync
+  # with .nvmrc and "engines" in package.json.
+  NODE_VERSION = "22"

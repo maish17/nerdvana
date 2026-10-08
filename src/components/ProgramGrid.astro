@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import ProgramCard from './ProgramCard.astro';
+
+interface Props {
+  heading: string;
+  intro?: string;
+  programs: CollectionEntry<'programs'>[];
+  emptyMessage?: string;
+}
+
+const { heading, intro, programs, emptyMessage } = Astro.props;
+---
+
+{(programs.length > 0 || emptyMessage) && (
+  <Section heading={heading} intro={intro}>
+    {programs.length > 0 ? (
+      <ul class="grid-cards" role="list">
+        {programs.map((program) => (
+          <li>
+            <ProgramCard program={program} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>{emptyMessage}</p>
+    )}
+  </Section>
+)}

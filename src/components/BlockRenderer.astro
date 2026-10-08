@@ -1,0 +1,118 @@
+---
+/**
+ * Renders the `blocks` array of a free-form page. Each block type maps to one
+ * approved component; there is no way to emit arbitrary HTML.
+ *
+ * Adding a block type: see README → "Adding a block type".
+ *
+ * Heading rule: if the first block is a hero, it renders the page's <h1>.
+ * Otherwise the page template renders the <h1> and every hero is an <h2>.
+ */
+import { getCollection } from 'astro:content';
+import type { PageBlock } from '../lib/types';
+import { byTitle, getPublishableTestimonial, resolve } from '../lib/content';
+import Hero from './Hero.astro';
+import ProofStrip from './ProofStrip.astro';
+import AudienceRouter from './AudienceRouter.astro';
+import ImplementationSteps from './ImplementationSteps.astro';
+import ProgramGrid from './ProgramGrid.astro';
+import CaseStudyGrid from './CaseStudyGrid.astro';
+import Testimonial from './Testimonial.astro';
+import FaqAccordion from './FaqAccordion.astro';
+import ContextualCta from './ContextualCta.astro';
+import RichText from './RichText.astro';
+import Section from './Section.astro';
+
+interface Props {
+  blocks: PageBlock[];
+}
+
+const { blocks } = Astro.props;
+
+// Resolve every block's data up front (references, "all" fallbacks).
+const rendered = await Promise.all(
+  blocks.map(async (block, index) => {
+    switch (block.discriminant) {
+      case 'programGrid': {
+        const picked = await resolve(block.value.programs);
+        return {
+          block,
+          index,
+          programs: picked.length ? picked : (await getCollection('programs')).sort(byTitle),
+        };
+      }
+      case 'caseStudyGrid': {
+        const picked = await resolve(block.value.caseStudies);
+        return {
+          block,
+          index,
+          caseStudies: picked.length ? picked : (await getCollection('caseStudies')).sort(byTitle),
+        };
+      }
+      case 'testimonial':
+        return {
+          block,
+          index,
+          testimonial: await getPublishableTestimonial(block.value.testimonial),
+        };
+      case 'faqAccordion':
+        return {
+          block,
+          index,
+          faqs: (await resolve(block.value.faqs)).map((f) => ({
+            question: f.data.question,
+            answer: f.data.answer,
+          })),
+        };
+      default:
+        return { block, index };
+    }
+  }),
+);
+---
+
+{rendered.map((r) => {
+  const { block } = r;
+  switch (block.discriminant) {
+    case 'hero':
+      return <Hero {...block.value} headingLevel={r.index === 0 ? 1 : 2} />;
+    case 'proofStrip':
+      return <ProofStrip {...block.value} />;
+    case 'audienceRouter':
+      return <AudienceRouter {...block.value} />;
+    case 'implementationSteps':
+      return <ImplementationSteps {...block.value} />;
+    case 'programGrid':
+      return (
+        <ProgramGrid
+          heading={block.value.heading}
+          intro={block.value.intro}
+          programs={r.programs ?? []}
+        />
+      );
+    case 'caseStudyGrid':
+      return (
+        <CaseStudyGrid
+          heading={block.value.heading}
+          intro={block.value.intro}
+          caseStudies={r.caseStudies ?? []}
+        />
+      );
+    case 'testimonial':
+      return r.testimonial && <Testimonial {...r.testimonial} />;
+    case 'faqAccordion':
+      return <FaqAccordion heading={block.value.heading} items={r.faqs ?? []} />;
+    case 'ctaBand':
+      return <ContextualCta {...block.value} />;
+    case 'richText':
+      return block.value.heading ? (
+        <Section heading={block.value.heading}>
+          <RichText content={block.value.body} />
+        </Section>
+      ) : (
+        <div class="container-page py-xl">
+          <RichText content={block.value.body} />
+        </div>
+      );
+  }
+})}

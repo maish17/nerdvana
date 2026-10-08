@@ -2,19 +2,22 @@
 interface Props {
   title: string;
   description: string;
+  siteName: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, siteName, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
 
 <meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteName} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-
-<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content="summary" />

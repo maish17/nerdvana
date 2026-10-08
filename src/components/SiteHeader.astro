@@ -1,0 +1,48 @@
+---
+import type { SiteSettings } from '../lib/types';
+
+interface Props {
+  settings: SiteSettings;
+}
+
+const { settings } = Astro.props;
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => href === path;
+const isSection = (href: string) => href !== '/' && path.startsWith(href);
+const { headerAction } = settings;
+---
+
+<header class="border-b border-border">
+  <div class="container-page flex flex-wrap items-center justify-between gap-md py-md">
+    <a
+      href="/"
+      class="text-lg font-bold no-underline"
+      aria-current={path === '/' ? 'page' : undefined}
+    >
+      {settings.siteName}
+    </a>
+    <nav aria-label={settings.labels.primaryNavLabel}>
+      <ul class="flex flex-wrap gap-x-md gap-y-xs" role="list">
+        {settings.primaryNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+              class:list={[
+                'inline-block py-2xs',
+                (isCurrent(item.href) || isSection(item.href)) && 'font-bold decoration-2',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    {headerAction.label && headerAction.href && (
+      <a class="btn btn-primary" href={headerAction.href}>
+        {headerAction.label}
+      </a>
+    )}
+  </div>
+</header>

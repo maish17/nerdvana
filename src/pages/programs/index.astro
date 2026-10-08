@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import RichText from '../../components/RichText.astro';
+import ProgramGrid from '../../components/ProgramGrid.astro';
+import ContextualCta from '../../components/ContextualCta.astro';
+import { byTitle, getSingleton } from '../../lib/content';
+
+const data = await getSingleton('programsOverview');
+const programs = (await getCollection('programs')).sort(byTitle);
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <Hero {...data.hero} />
+  <Section heading={data.intro.heading}>
+    <RichText content={data.intro.body} />
+  </Section>
+  <ProgramGrid
+    heading={data.list.heading}
+    intro={data.list.intro}
+    programs={programs}
+    emptyMessage={data.list.emptyMessage}
+  />
+  <ContextualCta {...data.cta} />
+</BaseLayout>

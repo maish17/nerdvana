@@ -1,0 +1,38 @@
+seo:
+  title: '[PLACEHOLDER] Planning & contact'
+  description: '[PLACEHOLDER] Search result description for the planning & contact page.'
+hero:
+  eyebrow: '[PLACEHOLDER] Eyebrow'
+  heading: '[PLACEHOLDER] Planning & contact heading'
+  lede: '[PLACEHOLDER] One or two sentences introducing this page. Long enough to show how an intro paragraph wraps across lines.'
+  primaryAction: {}
+  secondaryAction: {}
+  image: {}
+form:
+  heading: '[PLACEHOLDER] Planning form'
+  intro: '[PLACEHOLDER] One line about what the form is for and what happens after.'
+  requiredNote: '[PLACEHOLDER] Fields marked (required) must be filled in.'
+  requiredMarker: '[PLACEHOLDER] (required)'
+  nameLabel: '[PLACEHOLDER] Name'
+  emailLabel: '[PLACEHOLDER] Email'
+  organizationLabel: '[PLACEHOLDER] Organization'
+  roleLabel: '[PLACEHOLDER] Role'
+  personaLabel: '[PLACEHOLDER] I am a…'
+  campusesLabel: '[PLACEHOLDER] Number of campuses'
+  timelineLabel: '[PLACEHOLDER] Timeline'
+  fundingLabel: '[PLACEHOLDER] Funding status'
+  goalsLabel: '[PLACEHOLDER] Goals'
+  consentLabel: '[PLACEHOLDER] I agree to be contacted about my request.'
+  selectPrompt: '[PLACEHOLDER] Choose one'
+  submitLabel: '[PLACEHOLDER] Send'
+direct:
+  heading: '[PLACEHOLDER] Contact us directly'
+  intro: '[PLACEHOLDER] One line about direct contact.'
+thanks:
+  seo:
+    title: '[PLACEHOLDER] Thank you'
+    description: '[PLACEHOLDER] Search result description for the thank you page.'
+  heading: '[PLACEHOLDER] Thank you heading'
+  body: '[PLACEHOLDER] One or two sentences confirming receipt and saying what happens next.'
+  linkLabel: '[PLACEHOLDER] Back to the home page'
+  linkHref: /

@@ -1,0 +1,27 @@
+---
+/** FAQ accordion: native <details>/<summary>. No JavaScript. */
+import Section from './Section.astro';
+import RichText from './RichText.astro';
+
+interface Props {
+  heading: string;
+  items: { question: string; answer: string }[];
+}
+
+const { heading, items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <Section heading={heading}>
+    <div class="grid max-w-measure gap-sm">
+      {items.map((item) => (
+        <details class="card">
+          <summary class="font-semibold">{item.question}</summary>
+          <div class="mt-sm">
+            <RichText content={item.answer} />
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+)}

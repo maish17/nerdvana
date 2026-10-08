@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import ResourceCard from '../components/ResourceCard.astro';
+import ContextualCta from '../components/ContextualCta.astro';
+import { getSingleton } from '../lib/content';
+
+const data = await getSingleton('resourcesIndex');
+const { labels } = await getSingleton('siteSettings');
+const resources = (await getCollection('resources')).sort(
+  (a, b) => b.data.lastUpdated.getTime() - a.data.lastUpdated.getTime(),
+);
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description}>
+  <Hero {...data.hero} />
+  <Section heading={data.list.heading} intro={data.list.intro}>
+    {resources.length > 0 ? (
+      <ul class="grid-cards" role="list">
+        {resources.map((resource) => (
+          <li>
+            <ResourceCard resource={resource} labels={labels} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>{data.list.emptyMessage}</p>
+    )}
+  </Section>
+  <ContextualCta {...data.cta} />
+</BaseLayout>

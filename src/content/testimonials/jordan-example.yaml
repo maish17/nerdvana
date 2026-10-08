@@ -1,0 +1,7 @@
+name: '[PLACEHOLDER] Jordan Example'
+quote: '[PLACEHOLDER] A testimonial quote, one or two sentences, attributed to a named person.'
+role: '[PLACEHOLDER] Principal'
+organization: '[PLACEHOLDER] Example Middle School'
+audience:
+  - district
+permissionOnFile: true

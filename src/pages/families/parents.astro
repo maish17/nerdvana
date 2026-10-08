@@ -1,0 +1,8 @@
+---
+import FamilyPage from '../../layouts/FamilyPage.astro';
+import { getSingleton } from '../../lib/content';
+
+const data = await getSingleton('parents');
+---
+
+<FamilyPage data={data} />

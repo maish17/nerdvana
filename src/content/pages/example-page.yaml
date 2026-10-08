@@ -1,0 +1,106 @@
+title: '[PLACEHOLDER] Example Page'
+seoTitle: '[PLACEHOLDER] Example free-form page'
+seoDescription: '[PLACEHOLDER] A free-form page that exercises every block type.'
+blocks:
+  - discriminant: hero
+    value:
+      eyebrow: '[PLACEHOLDER] Eyebrow'
+      heading: '[PLACEHOLDER] Example page heading'
+      lede: >-
+        [PLACEHOLDER] One or two sentences introducing this page. Long enough to
+        show how an intro paragraph wraps across lines.
+      primaryAction:
+        label: '[PLACEHOLDER] Plan a partnership'
+        href: /contact/
+      secondaryAction:
+        label: '[PLACEHOLDER] See programs'
+        href: /programs/
+      image:
+        src: /images/pages/example-page/blocks/0/value/image/src.svg
+        alt: '[PLACEHOLDER] Description of the example page hero image'
+  - discriminant: proofStrip
+    value:
+      heading: '[PLACEHOLDER] By the numbers'
+      items:
+        - value: '[PLACEHOLDER] 00'
+          label: '[PLACEHOLDER] First metric'
+        - value: '[PLACEHOLDER] 00'
+          label: '[PLACEHOLDER] Second metric'
+        - value: '[PLACEHOLDER] 00'
+          label: '[PLACEHOLDER] Third metric'
+  - discriminant: audienceRouter
+    value:
+      heading: '[PLACEHOLDER] Who we work with'
+      intro: '[PLACEHOLDER] Short intro routing each audience to its page.'
+      cards:
+        - label: '[PLACEHOLDER] Districts'
+          description: '[PLACEHOLDER] One line for districts.'
+          href: /solutions/district-partnerships/
+        - label: '[PLACEHOLDER] Charter networks'
+          description: '[PLACEHOLDER] One line for charter networks.'
+          href: /solutions/charter-networks/
+        - label: '[PLACEHOLDER] Independent schools'
+          description: '[PLACEHOLDER] One line for independent schools.'
+          href: /solutions/independent-schools/
+        - label: '[PLACEHOLDER] Families'
+          description: '[PLACEHOLDER] One line for families.'
+          href: /families/parents/
+  - discriminant: implementationSteps
+    value:
+      heading: '[PLACEHOLDER] How implementation works'
+      intro: '[PLACEHOLDER] Short intro to the implementation steps.'
+      steps:
+        - title: '[PLACEHOLDER] Step 1 title'
+          description: '[PLACEHOLDER] One or two sentences describing step 1.'
+        - title: '[PLACEHOLDER] Step 2 title'
+          description: '[PLACEHOLDER] One or two sentences describing step 2.'
+        - title: '[PLACEHOLDER] Step 3 title'
+          description: '[PLACEHOLDER] One or two sentences describing step 3.'
+        - title: '[PLACEHOLDER] Step 4 title'
+          description: '[PLACEHOLDER] One or two sentences describing step 4.'
+  - discriminant: programGrid
+    value:
+      heading: '[PLACEHOLDER] All programs'
+      intro: '[PLACEHOLDER] Empty selection shows every program.'
+      programs: []
+  - discriminant: caseStudyGrid
+    value:
+      heading: '[PLACEHOLDER] Featured case studies'
+      intro: '[PLACEHOLDER] Intro to the case studies.'
+      caseStudies:
+        - example-isd-summer-program
+  - discriminant: testimonial
+    value:
+      testimonial: jordan-example
+  - discriminant: faqAccordion
+    value:
+      heading: '[PLACEHOLDER] Frequently asked questions'
+      faqs:
+        - example-question-one
+        - example-question-two
+  - discriminant: richText
+    value:
+      heading: '[PLACEHOLDER] Rich text block'
+      body: >
+        [PLACEHOLDER] Rich text block paragraph with **bold text** and a
+        [placeholder link](/about/).
+
+
+        ### [PLACEHOLDER] Subheading
+
+
+        - [PLACEHOLDER] List item one
+
+        - [PLACEHOLDER] List item two
+
+        - [PLACEHOLDER] List item three
+  - discriminant: ctaBand
+    value:
+      heading: '[PLACEHOLDER] Call-to-action heading'
+      expectation: >-
+        [PLACEHOLDER] One line telling the visitor exactly what happens when
+        they click.
+      action:
+        label: '[PLACEHOLDER] Start planning'
+        href: /contact/
+      sourceTag: example-page-cta

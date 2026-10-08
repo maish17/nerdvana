@@ -1,0 +1,198 @@
+---
+/**
+ * Planning form, handled by Netlify Forms. No CRM yet.
+ *
+ * Netlify detects this form in the built HTML at deploy time. Requirements:
+ * `data-netlify`, a hidden `form-name` matching `name`, and form detection
+ * enabled in the Netlify UI (Forms → Enable form detection).
+ *
+ * Select option values are a data contract: see src/lib/content-options.ts.
+ */
+import type { CollectionEntry } from 'astro:content';
+import {
+  FORM_FUNDING_OPTIONS,
+  FORM_PERSONA_OPTIONS,
+  FORM_TIMELINE_OPTIONS,
+} from '../lib/content-options';
+
+type FormLabels = CollectionEntry<'contact'>['data']['form'];
+
+interface Props {
+  labels: FormLabels;
+}
+
+const { labels } = Astro.props;
+const FORM_NAME = 'planning';
+
+const req = labels.requiredMarker;
+const selects = [
+  {
+    name: 'persona',
+    label: labels.personaLabel,
+    options: FORM_PERSONA_OPTIONS,
+    autocomplete: 'off',
+  },
+  {
+    name: 'timeline',
+    label: labels.timelineLabel,
+    options: FORM_TIMELINE_OPTIONS,
+    autocomplete: 'off',
+  },
+  {
+    name: 'funding_status',
+    label: labels.fundingLabel,
+    options: FORM_FUNDING_OPTIONS,
+    autocomplete: 'off',
+  },
+];
+---
+
+<form
+  name={FORM_NAME}
+  method="POST"
+  action="/contact/thanks/"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  class="grid max-w-measure gap-lg"
+>
+  <input type="hidden" name="form-name" value={FORM_NAME} />
+  <input type="hidden" name="utm_source" />
+  <input type="hidden" name="utm_medium" />
+  <input type="hidden" name="utm_campaign" />
+  <input type="hidden" name="referrer" />
+  <input type="hidden" name="source_page" />
+
+  <!-- Honeypot: hidden from everyone; bots that fill it are discarded by Netlify. -->
+  <p hidden>
+    <label>
+      Leave empty <input name="bot-field" tabindex="-1" autocomplete="off" />
+    </label>
+  </p>
+
+  <p class="text-sm text-ink-muted">{labels.requiredNote}</p>
+
+  <div class="grid gap-2xs">
+    <label for="f-name" class="font-semibold">
+      {labels.nameLabel} <span>{req}</span>
+    </label>
+    <input id="f-name" name="name" type="text" required autocomplete="name" class="field" />
+  </div>
+
+  <div class="grid gap-2xs">
+    <label for="f-email" class="font-semibold">
+      {labels.emailLabel} <span>{req}</span>
+    </label>
+    <input id="f-email" name="email" type="email" required autocomplete="email" class="field" />
+  </div>
+
+  <div class="grid gap-2xs">
+    <label for="f-organization" class="font-semibold">
+      {labels.organizationLabel} <span>{req}</span>
+    </label>
+    <input
+      id="f-organization"
+      name="organization"
+      type="text"
+      required
+      autocomplete="organization"
+      class="field"
+    />
+  </div>
+
+  <div class="grid gap-2xs">
+    <label for="f-role" class="font-semibold">
+      {labels.roleLabel}
+    </label>
+    <input id="f-role" name="role" type="text" autocomplete="organization-title" class="field" />
+  </div>
+
+  {selects.map((s) => (
+    <div class="grid gap-2xs">
+      <label for={`f-${s.name}`} class="font-semibold">
+        {s.label} {s.name === 'persona' && <span>{req}</span>}
+      </label>
+      <select
+        id={`f-${s.name}`}
+        name={s.name}
+        required={s.name === 'persona'}
+        autocomplete={s.autocomplete}
+        class="field"
+      >
+        <option value="">{labels.selectPrompt}</option>
+        {s.options.map((o) => (
+          <option value={o.value}>{o.label}</option>
+        ))}
+      </select>
+    </div>
+  ))}
+
+  <div class="grid gap-2xs">
+    <label for="f-campuses" class="font-semibold">
+      {labels.campusesLabel}
+    </label>
+    <input
+      id="f-campuses"
+      name="campuses"
+      type="number"
+      inputmode="numeric"
+      min="0"
+      step="1"
+      class="field"
+    />
+  </div>
+
+  <div class="grid gap-2xs">
+    <label for="f-goals" class="font-semibold">
+      {labels.goalsLabel}
+    </label>
+    <textarea id="f-goals" name="goals" rows="5" class="field"></textarea>
+  </div>
+
+  <div class="grid grid-cols-[auto_1fr] items-start gap-sm">
+    <input id="f-consent" name="consent" type="checkbox" value="yes" required class="mt-1 size-5" />
+    <label for="f-consent">
+      {labels.consentLabel} <span>{req}</span>
+    </label>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary">
+      {labels.submitLabel}
+    </button>
+  </div>
+</form>
+
+<script is:inline>
+  // Populate attribution fields. UTM values and the external referrer are
+  // captured on the visitor's landing page by BaseLayout (sessionStorage),
+  // falling back to this page's own URL.
+  (function () {
+    var form = document.querySelector('form[name="planning"]');
+    if (!form) return;
+    var stored = {};
+    try {
+      stored = JSON.parse(sessionStorage.getItem('nv-attribution') || '{}');
+    } catch (e) {}
+    var params = new URLSearchParams(location.search);
+    var set = function (name, value) {
+      var field = form.elements.namedItem(name);
+      if (field && value) field.value = String(value).slice(0, 500);
+    };
+    ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (key) {
+      set(key, params.get(key) || stored[key]);
+    });
+    set('referrer', stored.referrer || document.referrer);
+    set('source_page', location.pathname);
+  })();
+</script>
+
+<style>
+  .field {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: var(--nv-space-xs) var(--nv-space-sm);
+    border: 1px solid var(--nv-color-border);
+    border-radius: var(--nv-radius-sm);
+    background: var(--nv-color-surface);
+  }
+</style>

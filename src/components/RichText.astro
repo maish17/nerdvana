@@ -1,0 +1,11 @@
+---
+import { renderRichText } from '../lib/markdoc';
+
+interface Props {
+  content: string;
+}
+
+const html = renderRichText(Astro.props.content);
+---
+
+{html && <div class="prose-basic" set:html={html} />}

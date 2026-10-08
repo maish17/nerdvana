@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import CaseStudyCard from './CaseStudyCard.astro';
+
+interface Props {
+  heading: string;
+  intro?: string;
+  caseStudies: CollectionEntry<'caseStudies'>[];
+  emptyMessage?: string;
+}
+
+const { heading, intro, caseStudies, emptyMessage } = Astro.props;
+---
+
+{(caseStudies.length > 0 || emptyMessage) && (
+  <Section heading={heading} intro={intro}>
+    {caseStudies.length > 0 ? (
+      <ul class="grid-cards" role="list">
+        {caseStudies.map((caseStudy) => (
+          <li>
+            <CaseStudyCard caseStudy={caseStudy} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>{emptyMessage}</p>
+    )}
+  </Section>
+)}
