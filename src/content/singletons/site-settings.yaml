@@ -1,29 +1,52 @@
 siteName: Nerdvana
+logo:
+  src: /images/site/logo/src.png
+  alt: Nerdvana home
 primaryNav:
-  - label: '[PLACEHOLDER] Solutions'
+  - label: Schools & Districts
     href: /solutions/
-  - label: '[PLACEHOLDER] Programs'
+  - label: Programs
     href: /programs/
-  - label: '[PLACEHOLDER] Impact'
-    href: /impact/
-  - label: '[PLACEHOLDER] Resources'
-    href: /resources/
-  - label: '[PLACEHOLDER] Families'
-    href: /families/parents/
-  - label: '[PLACEHOLDER] About'
-    href: /about/
-headerAction:
-  label: '[PLACEHOLDER] Plan a partnership'
-  href: /contact/
-footerNav:
-  - label: '[PLACEHOLDER] Contact'
-    href: /contact/
-  - label: '[PLACEHOLDER] Policies'
-    href: /policies/
-  - label: '[PLACEHOLDER] Homeschool'
-    href: /families/homeschool/
-  - label: '[PLACEHOLDER] Pre-ETS'
+  - label: Workforce & Pre-ETS
     href: /workforce/pre-ets/
+  - label: Impact & Resources
+    href: /impact/
+  - label: Families
+    href: /families/parents/
+  - label: About
+    href: /about/
+headerAction: {}
+footerTagline: Learn. Play. Work. Innovate.
+footerLocation: Edinburg, Texas
+footerColumns:
+  - heading: Explore
+    links:
+      - label: Schools & Districts
+        href: /solutions/
+      - label: Programs
+        href: /programs/
+      - label: Pre-ETS
+        href: /workforce/pre-ets/
+      - label: Impact
+        href: /impact/
+  - heading: For Families
+    links:
+      - label: Parent Programs
+        href: /families/parents/
+      - label: Homeschool Programs
+        href: /families/homeschool/
+      - label: Current Programs
+        href: /programs/
+  - heading: Company
+    links:
+      - label: About
+        href: /about/
+      - label: Contact Nerdvana
+        href: /contact/
+      - label: Accessibility
+        href: /policies/#accessibility
+      - label: Privacy
+        href: /policies/#privacy
 contact:
   email: placeholder@example.com
   phone: +1 000-000-0000
@@ -31,18 +54,13 @@ contact:
   city: Edinburg
   region: TX
   postalCode: '[PLACEHOLDER] ZIP'
-social:
-  - platform: linkedin
-    url: https://example.com/linkedin
-  - platform: instagram
-    url: https://example.com/instagram
-footerNote: '[PLACEHOLDER] Legal entity name'
+social: []
+copyright: © Copyright NERDVANA {year}. All rights reserved.
 labels:
-  skipToContent: '[PLACEHOLDER] Skip to main content'
-  primaryNavLabel: '[PLACEHOLDER] Main'
-  footerNavLabel: '[PLACEHOLDER] Footer'
-  socialNavLabel: '[PLACEHOLDER] Social media'
-  contactHeading: '[PLACEHOLDER] Contact'
+  skipToContent: Skip to main content
+  primaryNavLabel: Main
+  footerNavLabel: Footer
+  socialNavLabel: Social media
   offeringAgeRange: '[PLACEHOLDER] Ages'
   offeringSchedule: '[PLACEHOLDER] Schedule'
   offeringPrice: '[PLACEHOLDER] Price'
@@ -58,3 +76,7 @@ labels:
   notFoundTitle: '[PLACEHOLDER] Page not found'
   notFoundBody: '[PLACEHOLDER] The page you were looking for does not exist.'
   notFoundLink: '[PLACEHOLDER] Go to the home page'
+  menuButton: Menu
+  carouselPrevious: Previous card
+  carouselNext: Next card
+  carouselShow: Show

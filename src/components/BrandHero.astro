@@ -1,0 +1,121 @@
+---
+/**
+ * Homepage hero: darkened, tinted background photo with the white logo as the
+ * page's <h1> and a row of tagline words. Single static composition.
+ */
+interface Props {
+  heading: string;
+  logo: string;
+  taglineWords: string[];
+  background: { src?: string; alt: string };
+}
+
+const { heading, logo, taglineWords, background } = Astro.props;
+---
+
+<section class="brand-hero on-dark" aria-labelledby="brand-hero-heading">
+  {background.src && (
+    <img
+      src={background.src}
+      alt={background.alt}
+      width="1440"
+      height="754"
+      class="brand-hero__bg"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+    />
+  )}
+  <div class="brand-hero__tint" aria-hidden="true"></div>
+  <div class="brand-hero__content container-page">
+    <h1 id="brand-hero-heading">
+      <img src={logo} alt={heading} width="1979" height="499" class="brand-hero__logo" />
+    </h1>
+    <p class="brand-hero__tagline">
+      {taglineWords.map((word, i) => (
+        <>
+          {i > 0 && (
+            <span class="brand-hero__dot" aria-hidden="true">
+              •
+            </span>
+          )}
+          <span>{word}</span>{' '}
+        </>
+      ))}
+    </p>
+  </div>
+</section>
+
+<style>
+  .brand-hero {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: clamp(22rem, 44vw, 40rem);
+    overflow: hidden;
+    background: var(--nv-color-footer);
+  }
+  .brand-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(3px) brightness(0.5);
+    transform: scale(1.04); /* hide blurred edges */
+  }
+  .brand-hero__tint {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        100deg,
+        rgb(18 10 24 / 0.6) 0%,
+        rgb(18 10 24 / 0.2) 50%,
+        rgb(166 70 170 / 0.38) 100%
+      ),
+      rgb(145 57 156 / 0.24);
+  }
+  .brand-hero__content {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: clamp(var(--nv-space-xs), 1.5vw, var(--nv-space-md));
+    padding-block: var(--nv-space-2xl);
+    text-align: center;
+  }
+  .brand-hero h1 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+  }
+  .brand-hero__logo {
+    display: block; /* no inline line-height gap under the image */
+    width: min(100%, 63rem);
+    height: auto;
+  }
+  .brand-hero__tagline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25em 1.25em;
+    font-size: clamp(1rem, 0.4rem + 2.5vw, 2.75rem);
+    font-weight: 800;
+    --tracking: 0.3em;
+    letter-spacing: var(--tracking);
+  }
+  .brand-hero__tagline > span:not(.brand-hero__dot) {
+    margin-right: calc(-1 * var(--tracking));
+  }
+  .brand-hero__dot {
+    letter-spacing: 0;
+  }
+  @media (max-width: 40rem) {
+    .brand-hero__tagline {
+      gap: 0.25em 0.5em;
+      font-size: 0.9375rem;
+      --tracking: 0.12em;
+    }
+  }
+</style>

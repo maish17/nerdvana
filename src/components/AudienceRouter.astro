@@ -1,34 +1,47 @@
 ---
 /**
- * Audience router: 3 to 6 cards, each with a descriptive label.
+ * Audience router: 3 to 6 cards, each with a descriptive heading.
  * Never "Learn more" — enforced here as well as in both schemas.
  */
 import Section from './Section.astro';
 import { VAGUE_LABEL_PATTERN } from '../lib/content-options';
+import { uid } from '../lib/ids';
 
 interface Props {
+  eyebrow?: string;
   heading: string;
   intro?: string;
-  cards: { label: string; description?: string; href: string }[];
+  cards: { label: string; description?: string; linkLabel?: string; href: string }[];
 }
 
-const { heading, intro, cards } = Astro.props;
+const { eyebrow, heading, intro, cards } = Astro.props;
 
 if (cards.length < 3 || cards.length > 6) {
   throw new Error(`Audience router "${heading}" needs 3 to 6 cards; it has ${cards.length}.`);
 }
-const vague = cards.find((c) => VAGUE_LABEL_PATTERN.test(c.label));
-if (vague) throw new Error(`Audience router card label "${vague.label}" is not descriptive.`);
+const vague = cards.find(
+  (c) => VAGUE_LABEL_PATTERN.test(c.label) || VAGUE_LABEL_PATTERN.test(c.linkLabel ?? ''),
+);
+if (vague) throw new Error(`Audience router card "${vague.label}" is not descriptive.`);
+
+const items = cards.map((card) => ({ ...card, headingId: uid('card') }));
 ---
 
-<Section heading={heading} intro={intro}>
-  <ul class="grid-cards" role="list">
-    {cards.map((card) => (
-      <li class="card">
-        <h3>
-          <a href={card.href}>{card.label}</a>
+<Section eyebrow={eyebrow} heading={heading} intro={intro} wide>
+  <ul class="grid gap-lg md:grid-cols-2 lg:grid-cols-3" role="list">
+    {items.map((card) => (
+      <li class="card flex flex-col gap-sm">
+        <h3 id={card.headingId} class="text-lg">
+          {card.linkLabel ? card.label : <a href={card.href}>{card.label}</a>}
         </h3>
-        {card.description && <p class="mt-xs text-ink-muted">{card.description}</p>}
+        {card.description && <p class="text-ink-muted">{card.description}</p>}
+        {card.linkLabel && (
+          <p class="mt-auto">
+            <a class="link-arrow" href={card.href} aria-describedby={card.headingId}>
+              {card.linkLabel} <span aria-hidden="true">→</span>
+            </a>
+          </p>
+        )}
       </li>
     ))}
   </ul>

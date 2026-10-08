@@ -167,25 +167,42 @@ const proofStripSection = () =>
     { label: 'Proof strip' },
   );
 
+/** Text that must be descriptive: "Learn more" is rejected. Optional fields accept empty. */
+const descriptiveText = (label: string, description: string, required: boolean) =>
+  fields.text({
+    label,
+    description,
+    validation: {
+      isRequired: required,
+      pattern: {
+        regex: new RegExp(
+          `^${required ? '' : '$|^'}(?![\\s\\S]*${VAGUE_LABEL_PATTERN.source})[\\s\\S]+$`,
+          'i',
+        ),
+        message: 'Use descriptive text. "Learn more" is not allowed.',
+      },
+    },
+  });
+
 const audienceRouterSection = () =>
   fields.object(
     {
+      eyebrow: text('Eyebrow (small line above heading)'),
       heading: text('Heading', { required: true }),
       intro: text('Intro', { multiline: true }),
       cards: fields.array(
         fields.object({
-          label: fields.text({
-            label: 'Card label',
-            description: 'Say where the card goes, e.g. the audience name. Never "Learn more".',
-            validation: {
-              isRequired: true,
-              pattern: {
-                regex: new RegExp(`^(?![\\s\\S]*${VAGUE_LABEL_PATTERN.source})[\\s\\S]+$`, 'i'),
-                message: 'Use a descriptive label. "Learn more" is not allowed.',
-              },
-            },
-          }),
+          label: descriptiveText(
+            'Card heading',
+            'Say where the card goes, e.g. the audience name. Never "Learn more".',
+            true,
+          ),
           description: text('Description', { multiline: true }),
+          linkLabel: descriptiveText(
+            'Link text (optional)',
+            'Shown at the bottom of the card with an arrow. Leave empty to link the heading instead.',
+            false,
+          ),
           href: href('Link', true),
         }),
         {
@@ -259,12 +276,14 @@ const faqSection = () =>
     { label: 'FAQs' },
   );
 
-const ctaSection = (label = 'Call to action') =>
+/** `secondary: true` adds an optional second (outline) button — homepage only. */
+const ctaSection = (label = 'Call to action', { secondary = false } = {}) =>
   fields.object(
     {
       heading: text('Heading', { required: true }),
       expectation: text('What happens next (one line)', { required: true }),
       action: action('Button', true),
+      ...(secondary ? { secondaryAction: action('Second button (outline, optional)') } : {}),
       sourceTag: fields.text({
         label: 'Analytics source tag',
         description: 'Lowercase-hyphenated identifier for this CTA, e.g. home-footer-cta.',
@@ -284,6 +303,62 @@ const richSection = (label: string) =>
   fields.object(
     { heading: text('Heading', { required: true }), body: richText('Body') },
     { label },
+  );
+
+/** Homepage hero: background photo, logo as the page heading, tagline words. */
+const brandHeroSection = (dir: string) =>
+  fields.object(
+    {
+      heading: text('Page heading (read aloud in place of the logo)', { required: true }),
+      logo: fields.image({
+        label: 'Logo (white, on transparent)',
+        directory: `public/images/${dir}`,
+        publicPath: `/images/${dir}/`,
+        validation: { isRequired: true },
+      }),
+      taglineWords: fields.array(text('Word', { required: true }), {
+        label: 'Tagline words (shown with dots between them)',
+        itemLabel: (p) => p.value || 'Word',
+        validation: { length: { min: 1, max: 6 } },
+      }),
+      background: imageWithAlt('Background photo (darkened and tinted)', dir),
+    },
+    { label: 'Hero' },
+  );
+
+/** Eyebrow + heading + rich body, optionally with up to two buttons. */
+const textSection = (label: string, { actions = false } = {}) =>
+  fields.object(
+    {
+      eyebrow: text('Eyebrow (small line above heading)'),
+      heading: text('Heading', { required: true }),
+      body: richText('Body'),
+      ...(actions
+        ? { primaryAction: action('First button'), secondaryAction: action('Second button') }
+        : {}),
+    },
+    { label },
+  );
+
+/** Card carousel on a brand band. No autoplay; scrolls by buttons, dots, swipe, or keyboard. */
+const carouselSection = (dir: string) =>
+  fields.object(
+    {
+      heading: text('Heading', { required: true }),
+      cards: fields.array(
+        fields.object({
+          image: imageWithAlt('Image', dir, true),
+          label: descriptiveText('Button text', 'Says where the card goes.', true),
+          href: href('Link', true),
+        }),
+        {
+          label: 'Cards (3 to 10)',
+          itemLabel: (p) => p.fields.label.value || 'Card',
+          validation: { length: { min: 3, max: 10 } },
+        },
+      ),
+    },
+    { label: 'Card carousel' },
   );
 
 const listingSection = (label: string) =>
@@ -619,6 +694,7 @@ export default config({
       format: { data: 'yaml' },
       schema: {
         siteName: text('Site name', { required: true }),
+        logo: imageWithAlt('Header logo', 'site', true),
         primaryNav: fields.array(
           fields.object({ label: text('Label', { required: true }), href: href('Link', true) }),
           {
@@ -627,12 +703,21 @@ export default config({
             validation: { length: { max: 8 } },
           },
         ),
-        headerAction: action('Header button'),
-        footerNav: fields.array(
-          fields.object({ label: text('Label', { required: true }), href: href('Link', true) }),
+        headerAction: action('Header button (optional)'),
+        footerTagline: text('Footer tagline'),
+        footerLocation: text('Footer location line'),
+        footerColumns: fields.array(
+          fields.object({
+            heading: text('Column heading', { required: true }),
+            links: fields.array(
+              fields.object({ label: text('Label', { required: true }), href: href('Link', true) }),
+              { label: 'Links', itemLabel: (p) => p.fields.label.value || 'Link' },
+            ),
+          }),
           {
-            label: 'Footer navigation',
-            itemLabel: (p) => p.fields.label.value || 'Link',
+            label: 'Footer link columns',
+            itemLabel: (p) => p.fields.heading.value || 'Column',
+            validation: { length: { max: 4 } },
           },
         ),
         contact: fields.object(
@@ -657,14 +742,22 @@ export default config({
           }),
           { label: 'Social links', itemLabel: (p) => p.fields.platform.value },
         ),
-        footerNote: text('Footer note (e.g. copyright holder)'),
+        copyright: text('Copyright line', {
+          required: true,
+          description: 'Write {year} where the current year should appear.',
+        }),
         labels: fields.object(
           {
             skipToContent: text('Skip link', { required: true }),
             primaryNavLabel: text('Primary navigation name (screen readers)', { required: true }),
+            menuButton: text('Mobile menu button', { required: true }),
             footerNavLabel: text('Footer navigation name (screen readers)', { required: true }),
             socialNavLabel: text('Social links name (screen readers)', { required: true }),
-            contactHeading: text('Footer contact heading', { required: true }),
+            carouselPrevious: text('Carousel: previous button (screen readers)', {
+              required: true,
+            }),
+            carouselNext: text('Carousel: next button (screen readers)', { required: true }),
+            carouselShow: text('Carousel: dot button prefix, e.g. "Show"', { required: true }),
             offeringAgeRange: text('Offering: age range label', { required: true }),
             offeringSchedule: text('Offering: schedule label', { required: true }),
             offeringPrice: text('Offering: price label', { required: true }),
@@ -692,15 +785,13 @@ export default config({
       format: { data: 'yaml' },
       schema: {
         seo: seoSection(),
-        hero: heroSection('singletons/home'),
+        hero: brandHeroSection('singletons/home'),
+        intro: textSection('Intro', { actions: true }),
+        spotlight: carouselSection('singletons/home'),
+        story: textSection('Text section'),
         proof: proofStripSection(),
         audienceRouter: audienceRouterSection(),
-        steps: implementationStepsSection(),
-        programs: programsSection(),
-        caseStudies: caseStudiesSection(),
-        testimonial: testimonialSection(),
-        faq: faqSection(),
-        cta: ctaSection(),
+        cta: ctaSection('Call to action', { secondary: true }),
       },
     }),
 
@@ -810,7 +901,7 @@ export default config({
         hero: heroSection('singletons/about'),
         story: richSection('Story'),
         proof: proofStripSection(),
-        gallery: gallerySection('singletons/about/gallery'),
+        gallery: gallerySection('singletons/about'),
         cta: ctaSection(),
       },
     }),

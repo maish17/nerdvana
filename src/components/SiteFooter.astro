@@ -1,65 +1,78 @@
 ---
 import type { SiteSettings } from '../lib/types';
 import { SOCIAL_PLATFORM_OPTIONS } from '../lib/content-options';
-import { uid } from '../lib/ids';
 
 interface Props {
   settings: SiteSettings;
 }
 
 const { settings } = Astro.props;
-const { contact, labels } = settings;
-const contactId = uid('footer-contact');
-const year = new Date().getFullYear();
+const { labels } = settings;
+const year = String(new Date().getFullYear());
+const copyright = settings.copyright.replaceAll('{year}', year);
 const platformLabel = (p: string) => SOCIAL_PLATFORM_OPTIONS.find((o) => o.value === p)?.label ?? p;
-const cityLine = [contact.city, [contact.region, contact.postalCode].filter(Boolean).join(' ')]
-  .filter(Boolean)
-  .join(', ');
 ---
 
-<footer class="mt-2xl border-t border-border bg-surface-muted">
-  <div class="container-page grid gap-xl py-2xl md:grid-cols-3">
-    <section aria-labelledby={contactId}>
-      <h2 id={contactId} class="text-lg">
-        {labels.contactHeading}
-      </h2>
-      <address class="mt-sm grid gap-2xs not-italic">
-        <a href={`mailto:${contact.email}`}>{contact.email}</a>
-        <a href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}>{contact.phone}</a>
-        {contact.street && <span>{contact.street}</span>}
-        {cityLine && <span>{cityLine}</span>}
-      </address>
-    </section>
+<footer class="on-dark bg-footer text-sm">
+  <div class="container-page grid gap-xl py-2xl md:grid-cols-[1.4fr_3fr]">
+    <div>
+      <p class="text-lg font-bold tracking-wide uppercase">{settings.siteName}</p>
+      {settings.footerTagline && <p class="mt-xs">{settings.footerTagline}</p>}
+      {settings.footerLocation && <p class="mt-2xs text-footer-muted">{settings.footerLocation}</p>}
+    </div>
 
-    {settings.footerNav.length > 0 && (
-      <nav aria-label={labels.footerNavLabel}>
-        <ul class="grid gap-2xs" role="list">
-          {settings.footerNav.map((item) => (
-            <li>
-              <a href={item.href}>{item.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    )}
-
-    {settings.social.length > 0 && (
-      <nav aria-label={labels.socialNavLabel}>
-        <ul class="grid gap-2xs" role="list">
-          {settings.social.map((s) => (
-            <li>
-              <a href={s.url} rel="noopener">
-                {platformLabel(s.platform)}
-              </a>
-            </li>
-          ))}
-        </ul>
+    {settings.footerColumns.length > 0 && (
+      <nav
+        aria-label={labels.footerNavLabel}
+        class="grid grid-cols-[repeat(auto-fit,minmax(min(9rem,100%),1fr))] gap-xl"
+      >
+        {settings.footerColumns.map((column) => (
+          <div>
+            <h2 class="text-sm font-bold">{column.heading}</h2>
+            <ul class="mt-sm grid gap-xs" role="list">
+              {column.links.map((link) => (
+                <li>
+                  <a href={link.href} class="footer-link">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </nav>
     )}
   </div>
-  <div class="container-page pb-lg text-sm text-ink-muted">
-    <p>
-      &copy; {year} {settings.footerNote || settings.siteName}
-    </p>
+
+  {settings.social.length > 0 && (
+    <nav aria-label={labels.socialNavLabel} class="container-page pb-lg">
+      <ul class="flex flex-wrap gap-md" role="list">
+        {settings.social.map((s) => (
+          <li>
+            <a href={s.url} rel="noopener" class="footer-link">
+              {platformLabel(s.platform)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )}
+
+  <div class="container-page">
+    <p class="footer-rule py-lg text-xs">{copyright}</p>
   </div>
 </footer>
+
+<style>
+  .footer-link {
+    color: var(--nv-color-footer-muted);
+    text-decoration: none;
+  }
+  .footer-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+  .footer-rule {
+    border-top: 1px solid rgb(255 255 255 / 0.2);
+  }
+</style>

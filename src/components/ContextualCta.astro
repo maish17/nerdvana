@@ -1,27 +1,42 @@
 ---
 /**
- * Contextual CTA: a heading, one line saying what happens next, and exactly
- * one action. `sourceTag` is exposed as data-cta-source for analytics.
+ * Contextual CTA on a brand band: a heading, one line saying what happens
+ * next, and one action (the homepage may add a second, outline action).
+ * `sourceTag` is exposed as data-cta-source for analytics.
  */
 import { uid } from '../lib/ids';
+
+interface Action {
+  label: string;
+  href?: string;
+}
 
 interface Props {
   heading: string;
   expectation: string;
   action: { label: string; href: string };
+  secondaryAction?: Action;
   sourceTag: string;
 }
 
-const { heading, expectation, action, sourceTag } = Astro.props;
+const { heading, expectation, action, secondaryAction, sourceTag } = Astro.props;
 const id = uid('cta');
+const second = secondaryAction?.label && secondaryAction.href ? secondaryAction : undefined;
 ---
 
-<section aria-labelledby={id} class="bg-surface-muted py-2xl" data-cta-source={sourceTag}>
+<section aria-labelledby={id} class="on-brand py-2xl text-center" data-cta-source={sourceTag}>
   <div class="container-page">
     <h2 id={id}>{heading}</h2>
-    <p class="mt-sm max-w-measure">{expectation}</p>
-    <a class="btn btn-primary mt-lg" href={action.href} data-cta-source={sourceTag}>
-      {action.label}
-    </a>
+    <p class="mx-auto mt-sm max-w-measure">{expectation}</p>
+    <div class="mt-lg flex flex-wrap justify-center gap-md">
+      <a class="btn btn-primary" href={action.href} data-cta-source={sourceTag}>
+        {action.label}
+      </a>
+      {second && (
+        <a class="btn btn-secondary" href={second.href} data-cta-source={sourceTag}>
+          {second.label}
+        </a>
+      )}
+    </div>
   </div>
 </section>

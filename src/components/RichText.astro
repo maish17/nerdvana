@@ -3,9 +3,12 @@ import { renderRichText } from '../lib/markdoc';
 
 interface Props {
   content: string;
+  /** Span the full container instead of a readable measure. */
+  wide?: boolean;
 }
 
-const html = renderRichText(Astro.props.content);
+const { content, wide = false } = Astro.props;
+const html = renderRichText(content);
 ---
 
-{html && <div class="prose-basic" set:html={html} />}
+{html && <div class:list={['prose-basic', wide && 'prose-wide']} set:html={html} />}

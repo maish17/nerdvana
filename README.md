@@ -3,18 +3,20 @@
 Marketing and lead-generation site for Nerdvana. Static Astro site, content
 edited in Keystatic, deployed on Netlify.
 
-**Status: structural skeleton.** Every piece of text is a `[PLACEHOLDER]`, every
-image is a gray SVG, and the visual design is a neutral grayscale theme.
-Copy and visual design are separate, later stages.
+**Status.** The homepage, header, and footer follow the approved design, and the
+brand tokens, font, and shared bands (stats, CTA) apply site-wide. Other pages'
+sections are still structural. Copy not yet written is marked `[PLACEHOLDER]`
+(stat figures use the design's `X,XXX+` notation). Most images are gray SVGs.
 
-| Piece                      | What                                                              |
-| -------------------------- | ----------------------------------------------------------------- |
-| Framework                  | Astro 7, `output: 'static'` — every page is plain HTML            |
-| CMS                        | Keystatic, `local` storage mode (edits files in this repo)        |
-| Styling                    | Tailwind CSS 4, reading brand values from `src/styles/tokens.css` |
-| Hosting                    | Netlify (`@astrojs/netlify` adapter, `netlify.toml`)              |
-| Forms                      | Netlify Forms (planning form on `/contact/`)                      |
-| JavaScript on public pages | Two small inline scripts for form attribution. No framework.      |
+| Piece                      | What                                                                                 |
+| -------------------------- | ------------------------------------------------------------------------------------ |
+| Framework                  | Astro 7, `output: 'static'` — every page is plain HTML                               |
+| CMS                        | Keystatic, `local` storage mode (edits files in this repo)                           |
+| Styling                    | Tailwind CSS 4, reading brand values from `src/styles/tokens.css`                    |
+| Font                       | Montserrat, self-hosted (`@fontsource-variable/montserrat`)                          |
+| Hosting                    | Netlify (`@astrojs/netlify` adapter, `netlify.toml`)                                 |
+| Forms                      | Netlify Forms (planning form on `/contact/`)                                         |
+| JavaScript on public pages | Small inline scripts only: form attribution and the homepage carousel. No framework. |
 
 React is installed **only** because the Keystatic admin needs it. It is loaded
 only under `npm run dev`; production builds contain no React at all.
@@ -192,11 +194,21 @@ arrive:
   Every image has alt text (`alt=""` only when decorative). Reduced motion is
   respected, and links are underlined so nothing is conveyed by color alone.
 - **Hero** is one static composition. Never a carousel.
+- **Carousel** (homepage card carousel) never autoplays. Without JavaScript it is
+  a plain scrollable list. Arrows and dots are real buttons, and tabbing to a
+  card centers it. Every card image needs alt text, and buttons can't say
+  "Learn more".
 - **Audience router** has 3–6 cards with descriptive labels. "Learn more" is
   rejected.
 - **FAQ accordion** uses native `<details>`/`<summary>`, with no JavaScript.
 - **Testimonials** need name, role, and organization, and appear only with
   "Permission on file" checked.
-- **Brand color** `--nv-color-primary` (#A40084) is for the primary button fill
-  only. Everything else stays grayscale until visual design.
+- **Buttons** come in two styles: filled (`btn-primary`) and outline
+  (`btn-secondary`). Inside a purple or dark band (`.on-brand` / `.on-dark`) they
+  invert to white automatically. The carousel's dark card buttons are part of
+  that component, not a third style.
+- **Brand color** `--nv-color-primary` (#91399c, from the approved design) has
+  6.4:1 contrast with white. Change it in `tokens.css` only.
+- **Contextual CTAs** have one action. Only the homepage CTA may add a second,
+  outline button.
 - **Free-form page slugs** can't reuse a fixed route (`about`, `programs`, …).

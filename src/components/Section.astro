@@ -1,21 +1,29 @@
 ---
-/** Shared section shell: landmark, h2, optional intro. */
+/** Shared section shell: landmark, optional eyebrow, h2, optional intro. */
 import { uid } from '../lib/ids';
 
 interface Props {
   heading: string;
+  eyebrow?: string;
   intro?: string;
   muted?: boolean;
+  /** Intro spans the full container instead of a readable measure. */
+  wide?: boolean;
+  /** Anchor id, e.g. for /policies/#privacy. */
+  id?: string;
 }
 
-const { heading, intro, muted = false } = Astro.props;
-const id = uid('section');
+const { heading, eyebrow, intro, muted = false, wide = false, id } = Astro.props;
+const headingId = uid('section');
 ---
 
-<section aria-labelledby={id} class:list={['py-2xl', muted && 'bg-surface-muted']}>
+<section id={id} aria-labelledby={headingId} class:list={['py-2xl', muted && 'bg-surface-muted']}>
   <div class="container-page">
-    <h2 id={id}>{heading}</h2>
-    {intro && <p class="mt-sm max-w-measure text-ink-muted">{intro}</p>}
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h2 id={headingId} class:list={[eyebrow && 'mt-xs']}>
+      {heading}
+    </h2>
+    {intro && <p class:list={['mt-lg text-ink-muted', !wide && 'max-w-measure']}>{intro}</p>}
     <div class="mt-lg">
       <slot />
     </div>
